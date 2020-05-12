@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linux用户组 | GN</title><meta name="description" content="Linux用户组"><meta name="author" content="GN"><meta name="copyright" content="GN"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Linux用户组"><meta name="twitter:description" content="Linux用户组"><meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-8.png"><meta property="og:type" content="article"><meta property="og:title" content="Linux用户组"><meta property="og:url" content="http://lmzcool.top/2020/04/06/Linux%E7%94%A8%E6%88%B7%E7%BB%84/"><meta property="og:site_name" content="GN"><meta property="og:description" content="Linux用户组"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-8.png"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="http://lmzcool.top/2020/04/06/Linux%E7%94%A8%E6%88%B7%E7%BB%84/"><link rel="prev" title="iOS 10 Notification Extension" href="http://lmzcool.top/2020/04/06/iOS10Notification/"><link rel="next" title="iOS 逆向" href="http://lmzcool.top/2020/04/06/iOSJailBreak/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5/js/md5.min.js"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: false,
+  highlightLang: false,
+  highlightShrink: 'none',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">15</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">4</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#用户组"><span class="toc-number">1.</span> <span class="toc-text">用户组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#所有者"><span class="toc-number">1.1.</span> <span class="toc-text">所有者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件所在组"><span class="toc-number">1.2.</span> <span class="toc-text">文件所在组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其它组"><span class="toc-number">1.3.</span> <span class="toc-text">其它组</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-用户"><span class="toc-number">2.</span> <span class="toc-text">1. 用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-组"><span class="toc-number">3.</span> <span class="toc-text">2. 组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-文件"><span class="toc-number">4.</span> <span class="toc-text">3. 文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-其他"><span class="toc-number">5.</span> <span class="toc-text">4. 其他</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-8.png)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">GN</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Linux用户组</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-04-06 19:28:27"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-04-06</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-04-06 19:28:27"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-04-06</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Linux/">Linux</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/2020/04/06/Linux%E7%94%A8%E6%88%B7%E7%BB%84/#post-comment"><span class="gitalk-comment-count comment-count"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div id="article-container"><h2 id="用户组"><a href="#用户组" class="headerlink" title="用户组"></a>用户组</h2><p>在linux中的每个用户必须属于一个组，不能独立于组外。在linux中每个文件有所有者、所在组、其它组的概念</p>
+<ul>
+<li>所有者</li>
+<li>所在组</li>
+<li>其它组</li>
+<li>改变用户所在的组</li>
+</ul>
+<h3 id="所有者"><a href="#所有者" class="headerlink" title="所有者"></a>所有者</h3><p>一般为文件的创建者，谁创建了该文件，就天然的成为该文件的所有者</p>
+<p>用ls ‐ahl命令可以看到文件的所有者</p>
+<p>也可以使用chown 用户名 文件名来修改文件的所有者</p>
+<h3 id="文件所在组"><a href="#文件所在组" class="headerlink" title="文件所在组"></a>文件所在组</h3><p>当某个用户创建了一个文件后，这个文件的所在组就是该用户所在的组</p>
+<p>用ls ‐ahl命令可以看到文件的所有组</p>
+<p>也可以使用chgrp 组名 文件名来修改文件所在的组</p>
+<h3 id="其它组"><a href="#其它组" class="headerlink" title="其它组"></a>其它组</h3><p>除开文件的所有者和所在组的用户外，系统的其它用户都是文件的其它组</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>举例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>用户</td>
+<td><code>who, whoami, su, useradd, userdel, passwd, usermod, /etc/passwd</code></td>
+</tr>
+<tr>
+<td>组</td>
+<td><code>groupadd, groupdel, groupmod, /etc/group</code></td>
+</tr>
+<tr>
+<td>文件</td>
+<td><code>chmod, chown, chgrp</code></td>
+</tr>
+<tr>
+<td>其他</td>
+<td><code>sudo, exit</code></td>
+</tr>
+</tbody></table>
+<h2 id="1-用户"><a href="#1-用户" class="headerlink" title="1. 用户"></a>1. 用户</h2><ul>
+<li>已登录的用户信息: <code>who</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">显示当前所有已登录到系统的用户信息。</span><br><span class="line"></span><br><span class="line">参数:</span><br><span class="line">    -H    显示各列的标题（表头）。</span><br><span class="line">    -u    显示闲置时间。如果用户在前1分钟内有操作, 显示“.”; 超过24小时没有操作, 显示“old”字符串。</span><br><span class="line">    -m    显示当前会话的用户的信息, 相当于: who am i</span><br><span class="line">    -q    显示当前所有已登录的 账户名称 和 总人数。</span><br><span class="line">    -T    显示用户的 状态信息</span><br><span class="line"></span><br><span class="line">例子:</span><br><span class="line">    who         &#x2F;&#x2F; 显示当前所有已登录的用户</span><br><span class="line">    who -q      &#x2F;&#x2F; 显示当前所有已登录的账号名称和总人数</span><br><span class="line">    who am i    &#x2F;&#x2F; 显示当前会话的用户的信息</span><br><span class="line">    who -m      &#x2F;&#x2F; 显示当前会话的用户的信息</span><br><span class="line">    who -uTH    &#x2F;&#x2F; 显示当前所有已登录的用户信息（包括 闲置时间, 用户状态, 各列标题）</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>显示当前会话的用户的名称: <code>whoami</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">显示当前会话的用户的名称, 格式: whoami</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>切换用户: <code>su</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">select user, 切换用户。su 后面加上 “-” 表示切换用户后同时把工作目录切换到该用户的 home 目录。</span><br><span class="line"></span><br><span class="line">例子:</span><br><span class="line">    su username         &#x2F;&#x2F; 切换到指定用户</span><br><span class="line">    su - username       &#x2F;&#x2F; 切换到指定用户, 并同时把工作目录切换到用户的home目录</span><br><span class="line">    su                  &#x2F;&#x2F; 没有指定用户名, 则切换到 root 用户</span><br><span class="line">    su -                &#x2F;&#x2F; 切换到 root 用户, 并把工作目录切换到 &#x2F;root</span><br><span class="line">    su root             &#x2F;&#x2F; 切换到 root 用户</span><br><span class="line">    su - root           &#x2F;&#x2F; 切换到 root 用户, 并把工作目录切换到 &#x2F;root</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加用户: <code>useradd</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">格式: useradd [-potions] username</span><br><span class="line"></span><br><span class="line">参数:</span><br><span class="line">    -d    指定新建用户的主目录, 如果不指定, 则系统自动在 &#x2F;home 目录创建</span><br><span class="line">          一个和用户名相同的文件夹作为新建用户的主目录（&#x2F;home&#x2F;username）</span><br><span class="line">          </span><br><span class="line">    -m    自动创建主目录文件夹</span><br><span class="line">    </span><br><span class="line">    -g    指定新建用户所在组名称, 如果不指定, 则系统自动创建一个和用户名</span><br><span class="line">          相同的组作为新建用户所属组</span><br><span class="line"></span><br><span class="line">例子:</span><br><span class="line">    useradd -m user01                   &#x2F;&#x2F; 新建用户 user01, 自动创建主目录 &#x2F;home&#x2F;user01, 自动创建组 user01</span><br><span class="line">    useradd -md &#x2F;home&#x2F;u2 user02         &#x2F;&#x2F; 新建用户 user02, 自动创建主目录 &#x2F;home&#x2F;u2, 自动创建组 user02</span><br><span class="line">    useradd -md &#x2F;home&#x2F;u3 -g g3 user03   &#x2F;&#x2F; 新建用户 user03, 自动创建主目录 &#x2F;home&#x2F;u3, 指定组为 g3（指定的组必须已存在）</span><br><span class="line"></span><br><span class="line">注意:</span><br><span class="line">    新创建的用户默认不能使用 sudo 命令, 需要另外添加该命令的权限, 实际上 sudo 是一个组的名称, </span><br><span class="line">    把 组sudo 追加到用户的附加组列表, 该用户便能在输入用户自己密码的情况下执行 sudo 命令。</span><br><span class="line">    </span><br><span class="line">    例如让用户 user01 拥有 sudo 命令权限, 命令格式为: usermod -aG sudo user01</span><br><span class="line">    </span><br><span class="line">    具体参考后面的 usermod 命令介绍。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除用户: <code>userdel</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">删除用户时, 如果用户所属组是创建用户时自动创建的和用户名称同名的组, 并且该组内没有其他用户, 则该组也会被删掉。</span><br><span class="line"></span><br><span class="line">格式: userdel [-options] username</span><br><span class="line"></span><br><span class="line">参数:</span><br><span class="line">    -f    强制删除用户, 即使用户当前已登录</span><br><span class="line">    -r    删除用户, 同时删除用户主目录</span><br><span class="line"></span><br><span class="line">例子:</span><br><span class="line">    userdel user01          &#x2F;&#x2F; 删除用户 user01, 保留用户主目录</span><br><span class="line">    userdel -r user02       &#x2F;&#x2F; 删除用户 user02, 并同时删除用户主目录</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>更改用户密码:<code>passwd</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">设置或修改用户密码, 普通用户可以根据原密码修改自己的密码, 超级用户可以直接重置所有用户（包括 root 用户）的密码。</span><br><span class="line"></span><br><span class="line">格式: passwd [-options] [username]</span><br><span class="line"></span><br><span class="line">参数:</span><br><span class="line">    -a    all, 此选项只能和 -S 一起使用, 来显示所有用户的状态</span><br><span class="line">    -d    delete, 删除用户密码（把密码置为空）</span><br><span class="line">    -l    lock, 锁定指定账户（将密码更改为一个不可能与加密值匹配的值来禁用）</span><br><span class="line">    -u    unlock, 解锁指定账户</span><br><span class="line">    -S    status, 显示账户状态信息</span><br><span class="line"></span><br><span class="line">例子:</span><br><span class="line">    passwd              &#x2F;&#x2F; 更改自己的密码, 输入 原密码, 新密码, 确认新密码</span><br><span class="line">    passwd user01       &#x2F;&#x2F; 重置用户的密码, 输入 新密码, 确认新密码</span><br><span class="line">    passwd -aS          &#x2F;&#x2F; 查看所有用户的状态</span><br><span class="line">    passwd -S user01    &#x2F;&#x2F; 查看用户 user01 的状态</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改用户信息: <code>usermod</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">usermode 命令用于修改用户的基本信息。不允许修改正在线上的用户的名称, 不允许修改正在系统上执行程序的用户的ID。</span><br><span class="line"></span><br><span class="line">格式: usermod [-options] username</span><br><span class="line"></span><br><span class="line">参数:</span><br><span class="line">    -c    comment, 设置帐户注释</span><br><span class="line">    -d    home_dir, 设置用户主目录</span><br><span class="line">    -e    expiredate, 设置帐户过期日期</span><br><span class="line">    -g    group, 强制修改用户的新主组</span><br><span class="line">    -G    groups, 修改用户新的附加组列表</span><br><span class="line">    -a    append group, 将用户追加至上边 -G 中提到的附加组中, 并不从其它组中删除此用户</span><br><span class="line">    -u    uid, 修改账户的用户ID</span><br><span class="line">    -l    login, 设置用户的登录名称</span><br><span class="line">    -s    shell, 修改用户登录后使用的 shell</span><br><span class="line">    -L    lock, 锁定用户帐户（等同于 passwd -l 命令锁定账户）</span><br><span class="line">    -U    unlock, 解锁用户帐户（等同于 passwd -u 命令解账户）</span><br><span class="line"></span><br><span class="line">例子:</span><br><span class="line">    usermod -g group01 user01   &#x2F;&#x2F; 把用户 user01 的主组修改为 group01 组</span><br><span class="line">    usermod -u 9999 user01      &#x2F;&#x2F; 把用户 user01 的 ID 修改为 9999</span><br><span class="line">    usermod -l u1 user01        &#x2F;&#x2F; 把用户 user01 的名称修改为 u1</span><br><span class="line">    </span><br><span class="line">    usermod -aG sudo user01     &#x2F;&#x2F; 把 组sudo 添加到用户 user01 的附加组列表, 使该用户拥有执行 sudo 命令的权限</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>用户账户信息: /etc/passwd</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">文件 &#x2F;etc&#x2F;passwd 中存放了所有用户的账户信息, 每一行为一个用户, 每个用户的账户信息分为 7 个字段, 用 “:” 分隔。</span><br><span class="line"></span><br><span class="line">格式:</span><br><span class="line">    Username : Password : User ID : Group ID : Comment : Home Diretory : Login Command</span><br><span class="line">    用户名    : 密码      : 用户ID   : 组ID     : 用户注解 : 主目录         : 登录后执行的命令</span><br><span class="line"></span><br><span class="line">其中 密码字段 只显示一个特殊字符“x”或“*”, 加密后的密码存放在 &#x2F;etc&#x2F;shadow 文件中, 只有超级用户才能访问。</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-组"><a href="#2-组" class="headerlink" title="2. 组"></a>2. 组</h2><ul>
+<li>添加组: <code>groupadd</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">格式: groupadd [-options] groupname</span><br><span class="line"></span><br><span class="line">参数:</span><br><span class="line">    -g    指定新建组的ID</span><br><span class="line"></span><br><span class="line">例子:</span><br><span class="line">    groupadd group01            &#x2F;&#x2F; 新建名称为 group01 的组</span><br><span class="line">    groupadd -g 1001 group02    &#x2F;&#x2F; 新建名称为 group02 的组,  并给指定组的 ID 为 1001</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除组: <code>groupdel</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">删除组, 如果组内还包含有用户, 需要想将用户删除或移出该组后才能删除。</span><br><span class="line"></span><br><span class="line">格式: groupdel groupname</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>改变组信息: <code>groupmod</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">格式: groupmod [-options] groupname</span><br><span class="line"></span><br><span class="line">参数:</span><br><span class="line">    -n    修改组的名称</span><br><span class="line"></span><br><span class="line">例子:</span><br><span class="line">    groupmod -n NewGroupName OldGroupName</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看所有组: <code>/etc/group</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">文件 &#x2F;etc&#x2F;group 中存放了所有组的信息, 每一行表示一个组, 每个组的信息分为 4 个字段, 用 “:” 分隔。</span><br><span class="line"></span><br><span class="line">格式:</span><br><span class="line">    Group Name : Password : Group ID : User List</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-文件"><a href="#3-文件" class="headerlink" title="3. 文件"></a>3. 文件</h2><ul>
+<li>Linux的文件权限用 3组 每组3位 共9位 字符表示</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">终端输入命令ls -al查看当前目录下的所有文件的权限:</span><br><span class="line"></span><br><span class="line">-r--r--r--</span><br><span class="line">-rw-------</span><br><span class="line">drw-r--r--</span><br><span class="line">-rw-rw-rw-</span><br><span class="line">drwx------</span><br><span class="line">-rwxr--r--</span><br><span class="line">lrwxr-xr-x</span><br><span class="line">-rwxrwxrwx</span><br></pre></td></tr></table></figure>
+
+<p>上面每行列出了10个字符，其中第1位表示文件的类型: d表示文件夹, l表示链接文件, -表示文件。</p>
+<p>剩余9位分为3组，每组3位，分别表示: 文件所有者、同组用户、其他用户 对该文件的权限。</p>
+<p>每组的3位字母分别表示对该文件的读(r)、写(w)、执行(x)权限，显示字母表示有该权限，显示-表示没有该权限。</p>
+<ul>
+<li>权限的数字解析</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">每组权限可分别由3位二进制数分别表示 r、w、x 的权限开关，1表示有该权限，0表示没有该权限，3位二进制数转换为十进制的一个整数即可用于表示读、写、执行三个权限的开关。如下案例:</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 可总结为: r&#x3D;4, w&#x3D;2, x&#x3D;1</span><br><span class="line">rwx         r-x         rw-         ---</span><br><span class="line">111 &#x3D;&#x3D; 7    101 &#x3D;&#x3D; 5    110 &#x3D;&#x3D; 6    000 &#x3D; 0</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 上面表示是单组权限, 使用过程中一般三组权限一起使用</span><br><span class="line">rwxrwxrwx           r--r--r--           rw-rw-rw-           rw-r-----</span><br><span class="line">111111111 &#x3D;&#x3D; 777    100100100 &#x3D;&#x3D; 444    110110110 &#x3D;&#x3D; 666    110100000 &#x3D;&#x3D; 640</span><br><span class="line"></span><br><span class="line">PS: 上面的777, 444等权限数字, 应该 拆分解读, 即 3位数字 分别表示 三组用户(所有者, 同组用户, 其他用户)对文件的权限。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改文件/目录的 权限: <code>chmod</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">chmod修改文件权限有两种形式: 字母形式 和 数字形式</span><br><span class="line"></span><br><span class="line">字母形式:</span><br><span class="line"></span><br><span class="line">    格式: </span><br><span class="line">        chmod [u&#x2F;g&#x2F;o&#x2F;a][+&#x2F;-&#x2F;&#x3D;][r&#x2F;w&#x2F;x] file&#x2F;dir</span><br><span class="line"></span><br><span class="line">    参数:</span><br><span class="line">        u&#x2F;g&#x2F;o&#x2F;a: 修改哪个组的权限, 分别表示 所有者(user), 所在组(group), 其他组(other), 所有(all)</span><br><span class="line">        +&#x2F;-&#x2F;&#x3D;: 增加(+), 撤销(-) 或 重置(&#x3D;) 权限</span><br><span class="line">        r&#x2F;w&#x2F;x: 需要操作的权限, 读(r)、写(w)、执行(x)</span><br><span class="line"></span><br><span class="line">    例子:</span><br><span class="line">        chmod u+x aa.sh             &#x2F;&#x2F; 给文件所有者添加执行权限</span><br><span class="line">        chmod a+x aa.sh             &#x2F;&#x2F; 给所有用户添加执行权限</span><br><span class="line">        chmod a&#x3D;rwx aa.sh           &#x2F;&#x2F; 给所有用户添加读写和执行权限</span><br><span class="line">        chomd a&#x3D; aa.sh              &#x2F;&#x2F; 撤销所有用户的所有权限, 相当于 a-rwx</span><br><span class="line">        chmod o-w aa.txt            &#x2F;&#x2F; 给其他组的用户撤销写权限</span><br><span class="line">        chmod u&#x3D;rw,g&#x3D;r,o&#x3D; aa.sh     &#x2F;&#x2F; 可以用逗号分隔分别给不同权限组修改权限</span><br><span class="line"></span><br><span class="line">数字形式:</span><br><span class="line"></span><br><span class="line">    权限有3位数字组成（注意: 每一位单独使用, 分别表示 所有者、所在组、其他组 的权限）,</span><br><span class="line">    读(r) &#x3D; 4, 写(w) &#x3D; 2, 执行(x) &#x3D; 1, 没有(-) &#x3D; 0</span><br><span class="line">    </span><br><span class="line">    格式: </span><br><span class="line">        chmod [3位数字权限] file&#x2F;dir</span><br><span class="line">    </span><br><span class="line">    例子:</span><br><span class="line">        chmod 777 aa.sh             &#x2F;&#x2F; 给所有用户添加读写和执行权限</span><br><span class="line">        chmod 640 aa.sh             &#x2F;&#x2F; 所有者有读写权限, 所在组有读权限, 其他组没有任何权限</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改文件/目录的 所有者: <code>chown</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">修改文件所有者(change owner)</span><br><span class="line"></span><br><span class="line">格式: chown [-options] username file&#x2F;dir</span><br><span class="line"></span><br><span class="line">参数: </span><br><span class="line">    -R      递归处理, 如果修改的是目录, 则递归修改目录下的所有文件和子目录</span><br><span class="line"></span><br><span class="line">例子:</span><br><span class="line">    chonw user01 aa.txt         &#x2F;&#x2F; 把文件 aa.txt 的所有者修改为 用户user01</span><br><span class="line">    chonw -R user01 bbDir       &#x2F;&#x2F; 递归修改 目录bbDir 的所有者为 用户user01</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改文件/目录的 所属组: <code>chgrp</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">修改文件所在组(change group)</span><br><span class="line"></span><br><span class="line">格式: chgrp [-options] group_name file&#x2F;dir</span><br><span class="line"></span><br><span class="line">参数: </span><br><span class="line">    -R      递归处理, 如果修改的是目录, 则递归修改目录下的所有文件和子目录</span><br><span class="line"></span><br><span class="line">例子:</span><br><span class="line">    chgrp group01 aa.txt         &#x2F;&#x2F; 把文件 aa.txt 的所在组修改为 组group01</span><br><span class="line">    chgrp -R group01 bbDir       &#x2F;&#x2F; 递归修改 目录bbDir 的所在组为 组group01</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-其他"><a href="#4-其他" class="headerlink" title="4. 其他"></a>4. 其他</h2><ul>
+<li>以其他身份来执行命令: <code>sudo</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">sodu, 以其他身份来执行命令, 默认预设的身份为 root 用户。普通用户身份可能没有权限执行某些命令或查看某些</span><br><span class="line">文件&#x2F;文件夹, 此时需要切换到 root 用户, 如此比较麻烦, 也会暴露 root 用户密码给更多的普通用户, 因此可以</span><br><span class="line">为用户添加 sudo 权限（详见上面的 usermod 命令介绍）, 让该用户可以临时以 root 身份来执行相关命令。</span><br><span class="line">执行该命令需要输入当前登录用户的密码。</span><br><span class="line"></span><br><span class="line">格式: sudo [-options] original_commands</span><br><span class="line"></span><br><span class="line">参数:</span><br><span class="line">    -H      将HOME环境变量设为新身份的HOME环境变量。</span><br><span class="line">    -u      以指定用户的身份来执行命令, 默认为 root 用户。</span><br><span class="line"></span><br><span class="line">例子:</span><br><span class="line">    sudo ls &#x2F;root       &#x2F;&#x2F; 以 root 身份查看 &#x2F;root 目录</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>退出shell: <code>exit</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">退出shell, 或者退出当前登录的用户, 并返回给定值, 返回0表示执行成功正常退出, 返回非0表示执行失败异常退出。</span><br><span class="line"></span><br><span class="line">例子: </span><br><span class="line">    exit        &#x2F;&#x2F; 退出shell, 正常退出, 默认返回0</span><br><span class="line">    exit 1      &#x2F;&#x2F; 退出shell, 异常退出, 返回给定值</span><br></pre></td></tr></table></figure>
+
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* &#x2F;etc&#x2F;passwd：     用户账户的详细信息在此文件中更新。</span><br><span class="line">* &#x2F;etc&#x2F;shadow：     用户账户密码在此文件中更新。</span><br><span class="line">* &#x2F;etc&#x2F;group：      新用户群组的详细信息在此文件中更新。</span><br><span class="line">* &#x2F;etc&#x2F;gshadow：    新用户群组密码在此文件中更新。</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>/etc/passwd</p>
+<p><code>/etc/passwd</code> 是一个文本文件，其中包含了登录 Linux 系统所必需的每个用户的信息。它保存用户的有用信息，如用户名、密码、用户 ID、群组 ID、用户 ID 信息、用户的家目录和 Shell 。</p>
+<p><code>/etc/passwd</code> 文件将每个用户的详细信息写为一行，其中包含七个字段，每个字段之间用冒号 : 分隔：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># cat &#x2F;etc&#x2F;passwd</span><br><span class="line">root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;bash</span><br><span class="line">bin:x:1:1:bin:&#x2F;bin:&#x2F;sbin&#x2F;nologin</span><br><span class="line">daemon:x:2:2:daemon:&#x2F;sbin:&#x2F;sbin&#x2F;nologin</span><br><span class="line">adm:x:3:4:adm:&#x2F;var&#x2F;adm:&#x2F;sbin&#x2F;nologin</span><br><span class="line">lp:x:4:7:lp:&#x2F;var&#x2F;spool&#x2F;lpd:&#x2F;sbin&#x2F;nologin</span><br><span class="line">sync:x:5:0:sync:&#x2F;sbin:&#x2F;bin&#x2F;sync</span><br><span class="line">shutdown:x:6:0:shutdown:&#x2F;sbin:&#x2F;sbin&#x2F;shutdown</span><br><span class="line">halt:x:7:0:halt:&#x2F;sbin:&#x2F;sbin&#x2F;halt</span><br><span class="line">mail:x:8:12:mail:&#x2F;var&#x2F;spool&#x2F;mail:&#x2F;sbin&#x2F;nologin</span><br><span class="line">ftp:x:14:50:FTP User:&#x2F;var&#x2F;ftp:&#x2F;sbin&#x2F;nologin</span><br><span class="line">postfix:x:89:89::&#x2F;var&#x2F;spool&#x2F;postfix:&#x2F;sbin&#x2F;nologin</span><br><span class="line">sshd:x:74:74:Privilege-separated SSH:&#x2F;var&#x2F;empty&#x2F;sshd:&#x2F;sbin&#x2F;nologin</span><br><span class="line">tcpdump:x:72:72::&#x2F;:&#x2F;sbin&#x2F;nologin</span><br><span class="line">2gadmin:x:500:10::&#x2F;home&#x2F;viadmin:&#x2F;bin&#x2F;bash</span><br><span class="line">apache:x:48:48:Apache:&#x2F;var&#x2F;www:&#x2F;sbin&#x2F;nologin</span><br><span class="line">zabbix:x:498:499:Zabbix Monitoring System:&#x2F;var&#x2F;lib&#x2F;zabbix:&#x2F;sbin&#x2F;nologin</span><br><span class="line">mysql:x:497:502::&#x2F;home&#x2F;mysql:&#x2F;bin&#x2F;bash</span><br><span class="line">zend:x:502:503::&#x2F;u01&#x2F;zend&#x2F;zend&#x2F;gui&#x2F;lighttpd:&#x2F;sbin&#x2F;nologin</span><br><span class="line">rpc:x:32:32:Rpcbind Daemon:&#x2F;var&#x2F;cache&#x2F;rpcbind:&#x2F;sbin&#x2F;nologin</span><br><span class="line">2daygeek:x:503:504::&#x2F;home&#x2F;2daygeek:&#x2F;bin&#x2F;bash</span><br><span class="line">named:x:25:25:Named:&#x2F;var&#x2F;named:&#x2F;sbin&#x2F;nologin</span><br><span class="line">mageshm:x:506:507:2g Admin - Magesh M:&#x2F;home&#x2F;mageshm:&#x2F;bin&#x2F;bash</span><br></pre></td></tr></table></figure>
+<p>7 个字段的详细信息如下。</p>
+<ol>
+<li>用户名 （magesh）： 已创建用户的用户名，字符长度 1 个到 12 个字符。</li>
+<li>密码（x）：代表加密密码保存在 <code>/etc/shadow</code> 文件中。</li>
+<li>用户 ID（506）：代表用户的 ID 号，每个用户都要有一个唯一的 ID 。UID 号为 0 的是为 root 用户保留的，UID 号 1 到 99 是为系统用户保留的，UID 号 100-999 是为系统账户和群组保留的。</li>
+<li>群组 ID （507）：代表群组的 ID 号，每个群组都要有一个唯一的 GID ，保存在 /etc/group文件中。</li>
+<li>用户信息（2g Admin - Magesh M）：代表描述字段，可以用来描述用户的信息（LCTT 译注：此处原文疑有误）。</li>
+<li>家目录（/home/mageshm）：代表用户的家目录。</li>
+<li>Shell（/bin/bash）：代表用户使用的 shell 类型。</li>
+</ol>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">GN</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://lmzcool.top/2020/04/06/Linux%E7%94%A8%E6%88%B7%E7%BB%84/">http://lmzcool.top/2020/04/06/Linux%E7%94%A8%E6%88%B7%E7%BB%84/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://lmzcool.top" target="_blank">GN</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://user-gold-cdn.xitu.io/2020/5/11/1720422da38055a1?w=500&amp;h=500&amp;f=png&amp;s=23846" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/04/06/iOS10Notification/"><img class="prev_cover lazyload" data-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-1.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">iOS 10 Notification Extension</div></div></a></div><div class="next-post pull_right"><a href="/2020/04/06/iOSJailBreak/"><img class="next_cover lazyload" data-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-6.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">iOS 逆向</div></div></a></div></nav><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+  clientID: 'f41b211b8f76bcb4c631',
+  clientSecret: '18d237316009bcbd6c13816a73a595f20e63e0f9',
+  repo: 'https://github.com/gaonian/gaonian.github.io',
+  owner: 'gaonian',
+  admin: ['gaonian'],
+  id: md5(decodeURI(location.pathname)),
+  language: 'zh-CN',
+  perPage: 10,
+  distractionFreeMode: false,
+  pagerDirection: 'last',
+  createIssueManually: false,
+  updateCountCallback: commentCount
+})
+gitalk.render('gitalk-container')
+
+function commentCount(n){
+  try {
+    document.getElementsByClassName('gitalk-comment-count')[0].innerHTML= n
+  } catch (e) {
+    return false
+  }
+}</script></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2015 - 2020 By GN</div><div class="icp"><a><span>京ICP备19014027号</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script></body></html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SQLite常用API（C） | GN</title><meta name="description" content="SQLite常用API（C）"><meta name="author" content="GN"><meta name="copyright" content="GN"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="SQLite常用API（C）"><meta name="twitter:description" content="SQLite常用API（C）"><meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-8.png"><meta property="og:type" content="article"><meta property="og:title" content="SQLite常用API（C）"><meta property="og:url" content="http://lmzcool.top/2020/04/06/SQLite%E5%B8%B8%E7%94%A8API(C)/"><meta property="og:site_name" content="GN"><meta property="og:description" content="SQLite常用API（C）"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-8.png"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="http://lmzcool.top/2020/04/06/SQLite%E5%B8%B8%E7%94%A8API(C)/"><link rel="prev" title="SQL必知必会" href="http://lmzcool.top/2020/04/06/sql/"><link rel="next" title="FMDB源码解析" href="http://lmzcool.top/2020/04/06/FMDB%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5/js/md5.min.js"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: false,
+  highlightLang: false,
+  highlightShrink: 'none',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">15</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">4</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Database-Connection-Object"><span class="toc-number">2.</span> <span class="toc-text">Database Connection Object</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepared-Statement-Object"><span class="toc-number">3.</span> <span class="toc-text">Prepared Statement Object</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用api"><span class="toc-number">4.</span> <span class="toc-text">常用api</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlite3-open"><span class="toc-number">4.1.</span> <span class="toc-text">sqlite3_open</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlite3-close"><span class="toc-number">4.2.</span> <span class="toc-text">sqlite3_close</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlite3-prepare-v2"><span class="toc-number">4.3.</span> <span class="toc-text">sqlite3_prepare_v2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlite3-bind-parameter-count"><span class="toc-number">4.4.</span> <span class="toc-text">sqlite3_bind_parameter_count</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlite3-bind-parameter-index"><span class="toc-number">4.5.</span> <span class="toc-text">sqlite3_bind_parameter_index</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlite3-bind-parameter-name"><span class="toc-number">4.6.</span> <span class="toc-text">sqlite3_bind_parameter_name</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlite3-bind-xxx"><span class="toc-number">4.7.</span> <span class="toc-text">sqlite3_bind_xxx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlite3-step"><span class="toc-number">4.8.</span> <span class="toc-text">sqlite3_step</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlite3-reset"><span class="toc-number">4.9.</span> <span class="toc-text">sqlite3_reset</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlite3-column-count"><span class="toc-number">4.10.</span> <span class="toc-text">sqlite3_column_count</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlite3-data-count"><span class="toc-number">4.11.</span> <span class="toc-text">sqlite3_data_count</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlite3-column-name"><span class="toc-number">4.12.</span> <span class="toc-text">sqlite3_column_name</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlite3-column-xxx"><span class="toc-number">4.13.</span> <span class="toc-text">sqlite3_column_xxx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlite3-finalize"><span class="toc-number">4.14.</span> <span class="toc-text">sqlite3_finalize</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlite3-exec"><span class="toc-number">4.15.</span> <span class="toc-text">sqlite3_exec</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlite3-busy-handler"><span class="toc-number">4.16.</span> <span class="toc-text">sqlite3_busy_handler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlite3-wal-checkpoint-v2"><span class="toc-number">4.17.</span> <span class="toc-text">sqlite3_wal_checkpoint_v2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-number">5.</span> <span class="toc-text">参考资料</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-8.png)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">GN</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">SQLite常用API（C）</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-04-06 19:51:53"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-04-06</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-04-06 19:51:53"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-04-06</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/SQL/">SQL</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/2020/04/06/SQLite%E5%B8%B8%E7%94%A8API(C)/#post-comment"><span class="gitalk-comment-count comment-count"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div id="article-container"><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>SQLite接口元素可以分为三类：</p>
+<ul>
+<li><p><strong>对象列表</strong>。这是SQLite库使用的所有抽象对象和数据类型的列表。总共有几十个对象，但最重要的两个对象是：<strong>database connection object (sqlite3)</strong>  和 <strong>prepared statement object (sqlite3_stmt)</strong>。</p>
+</li>
+<li><p><strong>常数列表</strong>。这是一个由SQLite使用的数字常量列表，由sqlite3.h头文件中的定义来表示。这些常量是各种接口（例如：SQLITE_OK）的数值结果代码或传递到函数中以控制行为的标志（例如：SQLITE_OPEN_READONLY）。</p>
+</li>
+<li><p><strong>功能列表</strong>。这是对对象进行操作并使用和/或返回常量的所有函数和方法的列表。有许多函数，但大多数应用程序只使用少数函数。</p>
+</li>
+</ul>
+<h2 id="Database-Connection-Object"><a href="#Database-Connection-Object" class="headerlink" title="Database Connection Object"></a>Database Connection Object</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">sqlite3</span> <span class="title">sqlite3</span>;</span></span><br></pre></td></tr></table></figure>
+
+<p>每个打开的SQLite数据库都由一个指向名为 <code>sqlite3</code> 的不透明结构实例的指针表示。 将 <code>sqlite3</code> 指针视为对象很有用。</p>
+<p><code>sqlite3_open()</code> 、<code>sqlite3_open16()</code> 和 <code>sqlite3_open_v2()</code> 接口是其构造函数</p>
+<p><code>sqlite3_close()</code> 和 <code>sqlite3_close_v2()</code> 是其析构函数。</p>
+<p>还有许多其他接口（如 <code>sqlite3_prepare_v2()</code> 、<code>sqlite3_create_function()</code> 和 <code>sqlite3_busy_timeout()</code> ）是sqlite3对象上的方法。</p>
+<p><img src="/" class="lazyload" data-src="https://raw.githubusercontent.com/gaonian/HexoDocument/master/iOS/SQLite/sqlite_image/sqlite1.png"  alt="sqlite1"></p>
+<h2 id="Prepared-Statement-Object"><a href="#Prepared-Statement-Object" class="headerlink" title="Prepared Statement Object"></a>Prepared Statement Object</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">sqlite3_stmt</span> <span class="title">sqlite3_stmt</span>;</span></span><br></pre></td></tr></table></figure>
+
+<p>一个实例对象表示已编译为二进制形式并准备好进行计算的单个SQL语句。</p>
+<p>把每个SQL语句看作一个单独的计算机程序。原始SQL文本是源代码。prepared语句对象是编译后的对象代码。所有SQL都必须转换为prepared语句才能运行。</p>
+<p>prepared语句对象的生命周期通常如下：</p>
+<ol>
+<li>使用sqlite3_prepare_v2() 创建prepared语句对象。</li>
+<li>使用sqlite3_bind_*() 将值绑定到参数</li>
+<li>通过调用sqlite3_step() 一次或多次运行SQL</li>
+<li>使用sqlite3_reset() 重置prepared的语句，然后返回步骤2。这样做零次或多次</li>
+<li>使用sqlite3_finalize() 销毁对象</li>
+</ol>
+<p>构造函数：</p>
+<ul>
+<li>sqlite3_prepare</li>
+<li>sqlite3_prepare_v2</li>
+<li>sqlite3_prepare_v3</li>
+<li>sqlite3_prepare16</li>
+<li>sqlite3_prepare16_v2</li>
+<li>sqlite3_prepare16_v3</li>
+</ul>
+<p>析构函数:</p>
+<ul>
+<li>sqlite3_finalize()</li>
+</ul>
+<p><img src="/" class="lazyload" data-src="https://raw.githubusercontent.com/gaonian/HexoDocument/master/iOS/SQLite/sqlite_image/sqlite2.png"  alt="sqlite2"></p>
+<h2 id="常用api"><a href="#常用api" class="headerlink" title="常用api"></a>常用api</h2><h3 id="sqlite3-open"><a href="#sqlite3-open" class="headerlink" title="sqlite3_open"></a>sqlite3_open</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_open</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">const</span> <span class="keyword">char</span> *filename,   <span class="comment">/* Database filename (UTF-8) */</span></span></span></span><br><span class="line"><span class="function"><span class="params">  sqlite3 **ppDb          <span class="comment">/* OUT: SQLite db handle */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_open16</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">const</span> <span class="keyword">void</span> *filename,   <span class="comment">/* Database filename (UTF-16) */</span></span></span></span><br><span class="line"><span class="function"><span class="params">  sqlite3 **ppDb          <span class="comment">/* OUT: SQLite db handle */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_open_v2</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">const</span> <span class="keyword">char</span> *filename,   <span class="comment">/* Database filename (UTF-8) */</span></span></span></span><br><span class="line"><span class="function"><span class="params">  sqlite3 **ppDb,         <span class="comment">/* OUT: SQLite db handle */</span></span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">int</span> flags,              <span class="comment">/* Flags */</span></span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">const</span> <span class="keyword">char</span> *zVfs        <span class="comment">/* Name of VFS module to use */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>这些例程打开由 filename 参数指定的SQLite数据库文件。对于 <code>sqlite3_open()</code> 和<code>sqlite3_open_v2()</code>，filename为UTF-8；对于 <code>sqlite3_open16()</code>，filename为UTF-16。数据库连接句柄通常在 <code>*ppDb</code> 中返回，即使发生错误。唯一的例外是，如果SQLite无法分配内存来保存sqlite3对象，则会在 <code>*ppDb</code> 中写入一个NULL，而不是指向sqlite3对象的指针。如果数据库成功打开（and/or创建），则返回 <code>SQLITE_OK</code>。否则返回错误代码。<code>sqlite3_errmsg()</code> 或 <code>sqlite3_errmsg16()</code> 例程可用于获取任何<code>sqlite3_open()</code> 例程失败后错误的英文描述。</p>
+<p>对于使用 <code>sqlite3_open()</code> 或 <code>sqlite3_open_v2()</code> 创建的数据库，默认编码为UTF-8。使用 <code>sqlite3_open16()</code> 创建的数据库的默认编码将按本机字节顺序为UTF-16。</p>
+<p><strong>无论打开数据库连接句柄时是否发生错误，当不再需要时，都应通过将其传递给<code>sqlite3_close()</code> 来释放与数据库连接句柄相关联的资源</strong>。</p>
+<p><code>sqlite3_open_v2()</code> 接口的工作方式与 <code>sqlite3_open()</code> 类似，只是它接受两个额外的参数来控制新的数据库连接。<code>sqlite3_open_v2()</code> 的flags参数必须至少包含以下三种标志组合之一：</p>
+<ul>
+<li><p>SQLITE_OPEN_READONLY</p>
+<p>数据库以只读模式打开。如果数据库不存在，则返回错误。</p>
+</li>
+<li><p>SQLITE_OPEN_READWRITE</p>
+<p>如果可能，将打开数据库进行读写，或者仅当文件受操作系统写保护时才进行读操作。无论哪种情况，数据库必须已经存在，否则将返回错误。</p>
+</li>
+<li><p>SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE</p>
+<p>打开数据库进行读写操作，如果数据库不存在，则创建数据库。这是始终用于sqlite3_open() 和 sqlite3_open16() 的行为。</p>
+</li>
+</ul>
+<p>除了必需的标志外，还支持以下可选标志：</p>
+<ul>
+<li><p>SQLITE_OPEN_URI</p>
+<p>如果设置了此标志，则文件名可以解释为URI。</p>
+</li>
+<li><p>SQLITE_OPEN_MEMORY</p>
+<p>数据库将作为内存数据库打开。如果启用了共享缓存模式，则为实现缓存共享，数据库由“filename”参数命名，否则将忽略“filename”。</p>
+</li>
+<li><p>SQLITE_OPEN_NOMUTEX</p>
+<p>新的数据库连接将使用“多线程”线程模式。这意味着允许单独的线程同时使用SQLite，只要每个线程使用不同的数据库连接。</p>
+</li>
+<li><p>SQLITE_OPEN_FULLMUTEX</p>
+<p>新的数据库连接将使用“序列化”线程模式。这意味着多个线程可以安全地尝试同时使用同一个数据库连接。（互斥锁将阻止任何实际的并发，但在这种模式下，尝试没有任何危害。）</p>
+</li>
+<li><p>SQLITE_OPEN_SHAREDCACHE</p>
+<p>数据库已打开并启用共享缓存，覆盖sqlite3_enable_shared_cache（）提供的默认共享缓存设置。</p>
+</li>
+<li><p>SQLITE_OPEN_PRIVATECACHE</p>
+<p>数据库打开时共享缓存被禁用，覆盖sqlite3_enable_shared_cache（）提供的默认共享缓存设置。</p>
+</li>
+<li><p>SQLITE_OPEN_NOFOLLOW</p>
+<p>数据库文件名不允许是符号链接</p>
+</li>
+</ul>
+<p>如果<code>sqlite3_open_v2()</code> 的第三个参数不是上面所示的必需组合之一（可选地与其他SQLITE_OPEN_* 位组合），则此行为是未定义的。</p>
+<p><code>sqlite3_open_v2()</code> 的第四个参数是定义新数据库连接应使用的操作系统接口的sqlite3_vfs对象的名称。如果第四个参数是空指针，则使用默认的sqlite3 vfs对象。</p>
+<p>如果文件名为 <strong>:memory:</strong>，则会为连接创建一个专用的临时内存数据库。当数据库连接关闭时，这个内存中的数据库将消失。SQLite的未来版本可能会使用以 “:” 字符开头的其他特殊文件名。建议在数据库文件名实际以 “:” 字符开头时，应在文件名前面加上 “./“ 等路径名，以避免歧义。</p>
+<p>如果文件名为空字符串，则将创建一个专用的临时磁盘数据库。一旦数据库连接关闭，此专用数据库将被自动删除。</p>
+<h3 id="sqlite3-close"><a href="#sqlite3-close" class="headerlink" title="sqlite3_close"></a>sqlite3_close</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_close</span><span class="params">(sqlite3*)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_close_v2</span><span class="params">(sqlite3*)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>sqlite3_close()</code> 和 <code>sqlite3_close_v2()</code> 是 sqlite3对象的析构函数。调用<code>sqlite3_close()</code> 和 <code>sqlite3_close_v2()</code> 将在成功销毁sqlite3对象并释放所有关联资源时返回 <code>SQLITE_OK</code>。</p>
+<p>如果数据库连接与未完成的prepared语句或未完成的 sqlite3_backup 对象关联，则<code>sqlite3_close()</code> 将使数据库连接保持打开状态，并返回 <code>SQLITE_BUSY</code>。如果使用未完成的prepared语句或未完成的 sqlite3_backups 调用 <code>sqlite3_close v2()</code>，则数据库连接将成为一个不可用的“僵尸”，在最后一个prepared语句完成或最后一个 <code>sqlite3_backup</code> 完成时将自动释放。<code>sqlite3_close_v2()</code> 接口用于垃圾收集的宿主语言，其中调用析构函数的顺序是任意的。</p>
+<p>应用程序应完成所有prepared语句，关闭所有BLOB句柄，并在尝试关闭该对象之前完成与 sqlite3对象关联的所有sqlite3_backup对象。如果对仍有未完成的prepared语句、BLOB句柄和/或sqlite3_backup对象的数据库连接调用 <code>sqlite3_close_v2()</code>，则它将返回 <code>SQLITE_OK</code>，并延迟资源的释放，直到所有已准备的语句、BLOB句柄和sqlite3_backup对象也被销毁。</p>
+<p>如果在事务打开时销毁了sqlite3对象，则会自动回滚该事务。</p>
+<p><code>sqlite3_close（C）</code> 和 <code>sqlite3_close v2（C）</code> 的C参数必须是空指针，或者是从<code>sqlite3_open（）</code> 、<code>sqlite3_open16（）</code> 或 <code>sqlite3_open v2（）</code> 获得的sqlite3对象指针，并且之前没有关闭。使用空指针参数调用 <code>sqlite3_close（）</code> 或 <code>sqlite3_close_v2（）</code> 是无害的no-op。</p>
+<h3 id="sqlite3-prepare-v2"><a href="#sqlite3-prepare-v2" class="headerlink" title="sqlite3_prepare_v2"></a>sqlite3_prepare_v2</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_prepare_v2</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  sqlite3 *db,            <span class="comment">/* Database handle */</span></span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">const</span> <span class="keyword">char</span> *zSql,       <span class="comment">/* SQL statement, UTF-8 encoded */</span></span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">int</span> nByte,              <span class="comment">/* Maximum length of zSql in bytes. */</span></span></span></span><br><span class="line"><span class="function"><span class="params">  sqlite3_stmt **ppStmt,  <span class="comment">/* OUT: Statement handle */</span></span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">const</span> <span class="keyword">char</span> **pzTail     <span class="comment">/* OUT: Pointer to unused portion of zSql */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>要执行SQL语句，必须首先使用sqlite3_prepare_v2将其编译为字节码程序。或者，换句话说，这些例子是prepared语句对象的构造函数。</p>
+<ul>
+<li><p>第一个参数 <code>db</code> 是从先前成功调用sqlite3_open（）、sqlite3_open v2（）或sqlite3_open16（）获得的数据库连接。数据库连接必须尚未关闭。</p>
+</li>
+<li><p>第二个参数 <code>zSql</code> 是要编译的语句，编码为UTF-8或UTF-16。sqlite3_prepare（）、sqlite3_prepare_v2（）和sqlite3_prepare_v3（）接口使用UTF-8，sqlite3_prepare16（）、sqlite3_prepare16_v2（）和sqlite3_prepare16_v3（）使用UTF-16。</p>
+</li>
+<li><p>如果<code>nByte</code>参数为负，则<code>zSql</code>被读取到第一个零终止符。如果<code>nByte</code>为正，则它是从<code>zSql</code>读取的字节数。如果<code>nByte</code>为零，则不生成任何准备好的语句。如果调用者知道提供的字符串是以nul-terminated，那么传递一个nByte参数（包括nul-terminated在内的输入字符串中的字节数）有一个小的性能优势。</p>
+</li>
+<li><p>如果 <code>pzTail</code> 不为空，那么<code>*pzTail</code>将指向<code>zSql</code>中第一个SQL语句结束后的第一个字节。这些例程只编译zSql中的第一个语句，因此<code>*pzTail</code>指向未编译的内容。</p>
+</li>
+<li><p><code>*ppStmt</code>左指可以使用 sqlite3_step() 执行的已编译准备语句。如果有错误，<code>*ppStmt</code>设置为空。如果输入文本不包含SQL（如果输入是空字符串或注释），则<code>*ppStmt</code>设置为空。调用过程负责在完成编译后使用 sqlite3_finalize() 删除已编译的SQL语句。ppStmt不能为NULL。</p>
+</li>
+</ul>
+<p>如果成功，<code>sqlite3_prepare_v2</code> 将返回<code>SQLITE_OK</code>；否则将返回错误代码。</p>
+<h3 id="sqlite3-bind-parameter-count"><a href="#sqlite3-bind-parameter-count" class="headerlink" title="sqlite3_bind_parameter_count"></a>sqlite3_bind_parameter_count</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_bind_parameter_count</span><span class="params">(sqlite3_stmt*)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>可用于查找parepared语句中的SQL参数的数量。SQL参数是 <code>&quot;?&quot;</code>, <code>&quot;?NNN&quot;</code>, <code>&quot;:AAA&quot;</code> , <code>&quot;$AAA&quot;</code>, or <code>&quot;@AAA&quot;</code> 形式的标记,  用作以后绑定到参数的值的占位符。</p>
+<h3 id="sqlite3-bind-parameter-index"><a href="#sqlite3-bind-parameter-index" class="headerlink" title="sqlite3_bind_parameter_index"></a>sqlite3_bind_parameter_index</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_bind_parameter_index</span><span class="params">(sqlite3_stmt*, <span class="keyword">const</span> <span class="keyword">char</span> *zName)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>返回给定名称的SQL参数的索引。返回的索引值适合用作sqlite3_bind（）的第二个参数。如果找不到匹配的参数，则返回零。即使原始语句是使用sqlite3_prepare16_v2（）或sqlite3_prepare16_v3（）从UTF-16文本准备的，也必须在UTF-8中指定参数名。</p>
+<h3 id="sqlite3-bind-parameter-name"><a href="#sqlite3-bind-parameter-name" class="headerlink" title="sqlite3_bind_parameter_name"></a>sqlite3_bind_parameter_name</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">const</span> <span class="keyword">char</span> *<span class="title">sqlite3_bind_parameter_name</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>sqlite3_bind_parameter_name（P，N）接口返回prepared语句P中的第N个SQL参数的名称。</p>
+<p>SQL的表单参数 <code>&quot;?NNN&quot;</code> 或<code>:AAA</code>或 <code>@AAA</code> 或 <code>$AAA</code> 的名称分别对应的是字符串 <code>?NNN</code> 或 <code>:AAA</code> 或 <code>@AAA</code> 或 <code>$AAA</code>。 换句话说，首字母 <code>：</code>或 <code>$</code> 或 <code>@</code> 或 <code>?</code> 包含在名称中。表格参数 <code>？</code>以下整数没有名称，称为“无名”或“匿名参数”。</p>
+<p>第一个参数的索引为1，而不是0。返回的字符串始终采用UTF-8编码。</p>
+<h3 id="sqlite3-bind-xxx"><a href="#sqlite3-bind-xxx" class="headerlink" title="sqlite3_bind_xxx"></a>sqlite3_bind_xxx</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_bind_blob</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span>, <span class="keyword">const</span> <span class="keyword">void</span>*, <span class="keyword">int</span> n, <span class="keyword">void</span>(*)(<span class="keyword">void</span>*))</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_bind_blob64</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span>, <span class="keyword">const</span> <span class="keyword">void</span>*, sqlite3_uint64,</span></span></span><br><span class="line"><span class="function"><span class="params">                        <span class="keyword">void</span>(*)(<span class="keyword">void</span>*))</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_bind_double</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span>, <span class="keyword">double</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_bind_int</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_bind_int64</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span>, sqlite3_int64)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_bind_null</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_bind_text</span><span class="params">(sqlite3_stmt*,<span class="keyword">int</span>,<span class="keyword">const</span> <span class="keyword">char</span>*,<span class="keyword">int</span>,<span class="keyword">void</span>(*)(<span class="keyword">void</span>*))</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_bind_text16</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span>, <span class="keyword">const</span> <span class="keyword">void</span>*, <span class="keyword">int</span>, <span class="keyword">void</span>(*)(<span class="keyword">void</span>*))</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_bind_text64</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span>, <span class="keyword">const</span> <span class="keyword">char</span>*, sqlite3_uint64,</span></span></span><br><span class="line"><span class="function"><span class="params">                         <span class="keyword">void</span>(*)(<span class="keyword">void</span>*), <span class="keyword">unsigned</span> <span class="keyword">char</span> encoding)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_bind_value</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span>, <span class="keyword">const</span> sqlite3_value*)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_bind_pointer</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span>, <span class="keyword">void</span>*, <span class="keyword">const</span> <span class="keyword">char</span>*,<span class="keyword">void</span>(*)(<span class="keyword">void</span>*))</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_bind_zeroblob</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span>, <span class="keyword">int</span> n)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_bind_zeroblob64</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span>, sqlite3_uint64)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>在输入到 <code>sqlite3_prepare_v2()</code> 及其变体的SQL语句文本中，文本可以替换为与以下模板之一匹配的参数：</p>
+<ul>
+<li>?</li>
+<li>?NNN</li>
+<li>:VVV</li>
+<li>@VVV</li>
+<li>$VVV</li>
+</ul>
+<p>在上面的模板中，<strong>NNN表示整数文本，VVV表示字母数字标识符</strong>。这些参数的值（也称为“主机参数名”或“SQL参数”）可以使用此处定义的<code>sqlite3_bind_*()</code>进行设置。</p>
+<ul>
+<li><p><code>sqlite3_bind_*()</code> 的第一个参数始终是指向从 <code>sqlite3_prepare_v2()</code> 或其变体返回的 <code>sqlite3_stmt</code> 对象的指针。</p>
+</li>
+<li><p>第二个参数是要设置的SQL参数的索引。最左边的SQL参数的索引为1。当同一个命名的SQL参数被多次使用时，第二个和随后的出现的都与第一个出现的具有相同的索引。 如果需要，可以使用 <code>sqlite3_bind_parameter_index()</code> API查找命名参数的索引。索引 <code>?NNN</code> 参数是NNN的值。NNN值必须介于1和<code>sqlite3_limit()</code> 参数<code>SQLITE_LIMIT_VARIABLE_NUMBER</code>之间（默认值：999）。</p>
+</li>
+<li><p>第三个参数是要绑定到该参数的值。如果 <code>sqlite3_bind_text()</code> 或<code>sqlite3_bind_text16()</code> 或 <code>sqlite3_bind_blob()</code> 的第三个参数是空指针，则忽略第四个参数，最终结果与 <code>sqlite3_bind_NULL()</code> 相同。</p>
+</li>
+<li><p>在那些有第四个参数的例子中，它的值是参数中的字节数。要清楚：值是值中的字节数，而不是字符数。如果 <code>sqlite3_bind_text()</code> 或<code>sqlite3_bind_text16()</code> 的第四个参数为负，则字符串的长度是第一个零终止符之前的字节数。如果 <code>sqlite3_bind_blob()</code> 的第四个参数为负，则行为未定义。如果向 <code>sqlite3_bind_text()</code> 或 <code>sqlite3_bind_text16()</code> 或 <code>sqlite3_bind_text64()</code> 提供了非负的第四个参数，则该参数必须是假定字符串以NUL结尾时NUL结束符出现的字节偏移量。如果任何NUL字符的字节偏移量小于第四个参数的值，则生成的字符串值将包含嵌入的NUL。包含嵌入nul的字符串的表达式的结果是未定义的。</p>
+</li>
+<li><p>BLOB和string绑定接口的第五个参数是一个析构函数，用于在SQLite处理完BLOB或string之后对其进行处理。调用析构函数是为了释放BLOB或字符串，即使对bind API的调用失败，但如果第三个参数为空指针或第四个参数为负，则不调用析构函数。如果第五个参数是特殊值 <code>SQLITE_STATIC</code>，那么SQLite假设信息位于静态的非托管空间中，不需要释放。如果第五个参数的值是 <code>SQLITE_TRANSIENT</code>，那么SQLite会在 <code>sqlite3_bind_*()</code> 例子返回之前立即创建自己的数据私有副本。</p>
+</li>
+<li><p><code>sqlite3_bind_text64()</code> 的第六个参数必须是SQLITE_UTF8、SQLITE_UTF16、SQLITE_UTF16BE 或 SQLITE_UTF16LE 之一，才能指定第三个参数中文本的编码。如果sqlite3_bind_text64()的第六个参数不是上面显示的允许值之一，或者如果文本编码与第六个参数指定的编码不同，则行为未定义。</p>
+</li>
+</ul>
+<p><code>sqlite3_bind_zeroblob()</code>例程绑定长度为N的BLOB，该BLOB由零填充。zeroblob在处理时使用固定数量的内存（只是一个整数来保存其大小）。ZeroBlob用作BLOB的占位符，其内容稍后将使用增量BLOB I/O例程编写。零BLOB的负值将导致零长度BLOB。</p>
+<p><code>sqlite3_bind_pointer（S，I，P，T，D）</code> 例程使准备好的语句S中的第I个参数的SQL值为空，但也与T类型的指针P相关联。D既可以是空指针，也可以是指向P的析构函数的指针。使用完P后，SQLite将用P的单个参数调用析构函数DT参数应该是静态字符串，最好是字符串文本。sqlite3_bind_pointer（）例程是为sqlite3.20.0添加的指针传递接口的一部分。</p>
+<p>如果使用prepared语句的空指针或使用比sqlite3_reset（）最近为其调用了sqlite3_step（）的准备好的语句调用任何 <code>sqlite3_bind_*()</code>例程，则调用将返回 <code>SQLITE_MISUSE</code>。如果任何 <code>sqlite3_bind_*()</code>例程被传递一个已完成的prepared语句，则结果是未定义的，并且可能有危害。</p>
+<p><code>sqlite3_reset()</code> 不能清除绑定。未绑定参数解释为NULL。</p>
+<p><code>sqlite3_bind_*</code> 在成功时返回 <code>SQLITE_OK</code>，如果有任何错误，则返回错误代码。如果字符串或BLOB的大小超过了sqlite3_limit（<code>SQLITE_LIMIT_LENGTH</code>）或 <code>SQLITE_MAX_LENGTH</code> 设置的限制，则可能返回 <code>SQLITE_TOOBIG</code>。如果参数索引超出范围，则返回 <code>SQLITE_RANGE</code>。如果 <code>malloc()</code> 失败，则返回<code>SQLITE_NOMEM</code>。</p>
+<h3 id="sqlite3-step"><a href="#sqlite3-step" class="headerlink" title="sqlite3_step"></a>sqlite3_step</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_step</span><span class="params">(sqlite3_stmt*)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>在调用 <code>sqlite3_prepare_v2()</code> 等接口生成prepared语句后，必须调用此函数一次或多次以计算语句。</p>
+<p>在传统接口中，返回值将是<code>SQLITE_BUSY</code>、<code>SQLITE_DONE</code>、<code>SQLITE_ROW</code>、<code>SQLITE_ERROR</code> 或 <code>SQLITE_MISUSE</code>。使用“v2”接口，还可以返回任何其他结果代码或扩展结果代码。</p>
+<ul>
+<li><p><code>SQLITE_BUSY</code> 表示数据库引擎无法获取执行其工作所需的数据库锁。如果该语句是提交语句或发生在显式事务之外，则可以重试该语句。如果该语句不是COMMIT，并且发生在显式事务中，则应在继续之前回滚该事务。</p>
+</li>
+<li><p><code>SQLITE_DONE</code> 表示语句已成功完成执行。如果不首先调用 <code>sqlite3_reset()</code> 将虚拟机重置回初始状态，则不应在此虚拟机上再次调用 <code>sqlite3_step()</code></p>
+</li>
+<li><p>如果正在执行的SQL语句返回任何数据，则每次调用方准备好处理新的数据行时，都会返回 <code>SQLITE_ROW</code>。可以使用列访问函数访问这些值。再次调用<code>sqlite3_step()</code> 以检索下一行数据。</p>
+</li>
+<li><p><code>SQLITE_ERROR</code> 表示发生了运行时错误（例如约束冲突）。不应在虚拟机上再次调用 <code>sqlite3_step()</code>。可以通过调用 <code>sqlite3_errmsg()</code> 找到更多信息。对于传统接口，可以通过对准备好的语句调用 <code>sqlite3_reset()</code> 来获得更具体的错误代码（例如，SQLITE_INTERRUPT、SQLITE_SCHEMA、SQLITE_CORRUPT等等）。在“v2”接口中，更具体的错误代码由 <code>sqlite3_step()</code> 直接返回。</p>
+</li>
+<li><p><code>SQLITE_MISUSE</code> 意味着这个例程被不适当地调用。可能是在已完成的准备好的语句上调用的，也可能是在以前返回SQLITE_ERROR或SQLITE_DONE的语句上调用的。或者可能是同一数据库连接同时被两个或多个线程使用。</p>
+</li>
+</ul>
+<h3 id="sqlite3-reset"><a href="#sqlite3-reset" class="headerlink" title="sqlite3_reset"></a>sqlite3_reset</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_reset</span><span class="params">(sqlite3_stmt *pStmt)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>调用 <code>sqlite3_reset()</code> 函数将prepared语句对象重置回其初始状态，准备重新执行。任何使用 <code>sqlite3_bind_*()</code> API将值绑定到它们的SQL语句变量都将保留它们的值。使用 <code>sqlite3_clear_bindings()</code> 重置绑定。</p>
+<p><code>sqlite3_reset(S)</code>  接口将 prepared语句 S 重置回其程序的开头。</p>
+<p>如果为prepared语句S最近一次调用 sqlite3_step 返回了 SQLITE_ROW 或SQLITE_DONE，或者如果 sqlite3_step 以前从未在S上调用过，则sqlite3_reset返回SQLITE_OK。</p>
+<p>如果对prepared语句的sqlite3_step(S) 的最新调用指示错误，则sqlite3_reset将返回相应的错误代码。</p>
+<p>sqlite3_reset（S）接口不会更改prepared语句S上任何绑定的值。</p>
+<h3 id="sqlite3-column-count"><a href="#sqlite3-column-count" class="headerlink" title="sqlite3_column_count"></a>sqlite3_column_count</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_column_count</span><span class="params">(sqlite3_stmt *pStmt)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>返回prepared语句返回的结果集中的列数。如果此函数返回0，则表示prepared语句不返回数据（例如UPDATE）。然而，仅仅因为返回一个正数并不意味着将返回一行或多行数据。SELECT语句将始终具有正的 <code>sqlite3_column_count()</code> ，但根据WHERE子句约束和表内容，它可能不会返回任何行。</p>
+<h3 id="sqlite3-data-count"><a href="#sqlite3-data-count" class="headerlink" title="sqlite3_data_count"></a>sqlite3_data_count</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_data_count</span><span class="params">(sqlite3_stmt *pStmt)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>sqlite3_data_count（P）</code> 接口返回prepared statement P结果集中当前行中的列数。如果prepared statement P没有准备好返回的结果（通过调用sqlite3_column（）接口系列），则sqlite3_data_count（P）返回0。如果P是空指针，sqlite3_data_count（P）例程也返回0。如果之前对sqlite3步骤（P）的调用返回SQLITE_DONE，则sqlite3_data_count（P）例程返回0。如果先前调用sqlite3_step（P）返回SQLITE_ROW，则sqlite3_data_count（P）将返回非零，除非PRAGMA incremental_vacuum始终返回零，因为该多步骤PRAGMA的每个步骤都返回0列数据。</p>
+<h3 id="sqlite3-column-name"><a href="#sqlite3-column-name" class="headerlink" title="sqlite3_column_name"></a>sqlite3_column_name</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">const</span> <span class="keyword">char</span> *<span class="title">sqlite3_column_name</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span> N)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">const</span> <span class="keyword">void</span> *<span class="title">sqlite3_column_name16</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span> N)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>这些例程返回在SELECT语句的结果集中指定给特定列的名称。<code>sqlite3_column_name()</code> 接口返回指向以零结尾的UTF-8字符串的指针，<code>sqlite3_column_name16()</code> 返回指向以零结尾的UTF-16字符串的指针。第一个参数是实现SELECT语句的prepared语句。第二个参数是列号。最左边的列是0。</p>
+<p>返回的字符串指针有效，直到准备好的语句被 <code>sqlite3_finalize()</code> 销毁，或者直到第一次调用 <code>sqlite3_step()</code> 为特定运行自动重新准备语句，或者直到下一次调用同一列上的 <code>sqlite3_column_name()</code> 或 <code>sqlite3_column_name16()</code> 。</p>
+<p>如果sqlite3_malloc（）在处理任一例程期间（例如在从UTF-8转换为UTF-16期间）失败，则返回空指针。</p>
+<p>结果列的名称是该列的“AS”子句的值（如果有AS子句）。如果没有AS子句，则列的名称是未指定的，可能会改变从下一个release SQLite版本。</p>
+<h3 id="sqlite3-column-xxx"><a href="#sqlite3-column-xxx" class="headerlink" title="sqlite3_column_xxx"></a>sqlite3_column_xxx</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">const</span> <span class="keyword">void</span> *<span class="title">sqlite3_column_blob</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span> iCol)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">sqlite3_column_double</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span> iCol)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_column_int</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span> iCol)</span></span>;</span><br><span class="line"><span class="function">sqlite3_int64 <span class="title">sqlite3_column_int64</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span> iCol)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> *<span class="title">sqlite3_column_text</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span> iCol)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">const</span> <span class="keyword">void</span> *<span class="title">sqlite3_column_text16</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span> iCol)</span></span>;</span><br><span class="line"><span class="function">sqlite3_value *<span class="title">sqlite3_column_value</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span> iCol)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_column_bytes</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span> iCol)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_column_bytes16</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span> iCol)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_column_type</span><span class="params">(sqlite3_stmt*, <span class="keyword">int</span> iCol)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sqlite3_column_blob	→	BLOB result</span><br><span class="line">sqlite3_column_double	→	REAL result</span><br><span class="line">sqlite3_column_int	→	<span class="number">32</span>-<span class="built_in">bit</span> INTEGER result</span><br><span class="line">sqlite3_column_int64	→	<span class="number">64</span>-<span class="built_in">bit</span> INTEGER result</span><br><span class="line">sqlite3_column_text	→	UTF<span class="number">-8</span> TEXT result</span><br><span class="line">sqlite3_column_text16	→	UTF<span class="number">-16</span> TEXT result</span><br><span class="line">sqlite3_column_value	→	The result as an unprotected sqlite3_value object.</span><br><span class="line"> 	 	 </span><br><span class="line">sqlite3_column_bytes	→	Size of a BLOB <span class="keyword">or</span> a UTF<span class="number">-8</span> TEXT result in bytes</span><br><span class="line">sqlite3_column_bytes16  	→  	Size of UTF<span class="number">-16</span> TEXT in bytes</span><br><span class="line">sqlite3_column_type	→	Default datatype of the result</span><br></pre></td></tr></table></figure>
+
+<p>这些例程返回有关查询的当前结果行的单个列的信息。在任何情况下，第一个参数都是一个指针，指向正在计算的prepared语句（从sqlite3_prepare_v2（）或其变体返回的sqlite3_stmt*），第二个参数是应返回其信息的列的索引。结果集最左边的列具有索引0。结果中的列数可以使用 <code>sqlite3_column_count()</code> 确定。</p>
+<p>如果SQL语句当前未指向有效行，或者列索引超出范围，则返回结果未定义。只有在最近对 <code>sqlite3_step()</code> 的调用返回了 <code>SQLITE_ROW</code> 并且随后既没有调用<code>sqlite3_reset()</code> 也没有调用 <code>sqlite3_finalize()</code> 时，才可以调用这些例程。如果在 <code>sqlite3_reset()</code> 或 <code>sqlite3_finalize()</code> 之后或 <code>sqlite3_step()</code> 返回<code>SQLITE_ROW</code> 以外的内容之后调用这些例程，则结果未定义。如果在挂起这些例程时从其他线程调用 <code>sqlite3_step()</code> 或 <code>sqlite3_reset()</code> 或 <code>sqlite3_finalize()</code> ，则结果未定义。</p>
+<p>前六个接口（“blob”、“double”、“int”、“int64”、“text”和“text16”）都以特定的数据格式返回结果列的值。如果结果列最初不是请求的格式（例如，如果查询返回整数，但使用sqlite3_column_text（）接口提取值），则执行自动类型转换。</p>
+<p><code>sqlite3_column_type()</code> 例程返回结果列的初始数据类型的数据类型代码。返回的值是 <code>SQLITE_INTEGER</code>、<code>SQLITE_FLOAT</code>、<code>SQLITE_TEXT</code>、<code>SQLITE_BLOB</code> 或 <code>SQLITE_NULL</code> 之一。<code>sqlite3_column_type()</code> 的返回值可用于决定前六个接口中的哪一个应用于提取列值。<code>sqlite3_column_type()</code> 返回的值只有在没有对该值进行自动类型转换时才有意义。在类型转换之后，调用 <code>sqlite3_column_type()</code> 的结果是未定义的，尽管是无害的。SQLite的未来版本可能会在类型转换之后更改sqlite3_column_type（）的行为。</p>
+<p>如果结果是BLOB或文本字符串，则可以使用 <code>sqlite3_column_bytes()</code> 或<code>sqlite3_column_bytes16()</code> 接口来确定该BLOB或字符串的大小。</p>
+<p>如果结果是BLOB或UTF-8字符串，则 <code>sqlite3_column_bytes()</code> 返回该BLOB或字符串中的字节数。如果结果是UTF-16字符串，那么 <code>sqlite3_column_bytes()</code> 将字符串转换为UTF-8，然后返回字节数。如果结果是数值，则 <code>sqlite3_column_bytes()</code> 使用<code>sqlite3_snprintf()</code> 将该值转换为UTF-8字符串，并返回该字符串中的字节数。如果结果为空，则 <code>sqlite3_column_bytes()</code> 返回零。</p>
+<p><code>sqlite3_column_bytes()</code> 和 <code>sqlite3_column_bytes16()</code> 返回的值不包括字符串末尾的零终止符。为了清楚起见：sqlite3_column_bytes（）和sqlite3_column_bytes16（）返回的值是字符串中的字节数，而不是字符数。</p>
+<p><code>sqlite3_column_text()</code> 和 <code>sqlite3_column_text16()</code> 返回的字符串，即使是空字符串，也始终以零结尾。对于零长度blob，sqlite3_column_blob（）的返回值是空指针。</p>
+<p>这些例程可能试图转换结果的数据类型。例如，如果内部表示为FLOAT，并且请求文本结果，则在内部使用 <code>sqlite3_snprintf()</code> 自动执行转换。下表详细说明了应用的转换：</p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>Internal Type</th>
+<th>Requested Type</th>
+<th>Conversion</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NULL</td>
+<td>INTEGER</td>
+<td>Result is 0</td>
+</tr>
+<tr>
+<td>NULL</td>
+<td>FLOAT</td>
+<td>Result is 0.0</td>
+</tr>
+<tr>
+<td>NULL</td>
+<td>TEXT</td>
+<td>Result is a NULL pointer</td>
+</tr>
+<tr>
+<td>NULL</td>
+<td>BLOB</td>
+<td>Result is a NULL pointer</td>
+</tr>
+<tr>
+<td>INTEGER</td>
+<td>FLOAT</td>
+<td>Convert from integer to float</td>
+</tr>
+<tr>
+<td>INTEGER</td>
+<td>TEXT</td>
+<td>ASCII rendering of the integer</td>
+</tr>
+<tr>
+<td>INTEGER</td>
+<td>BLOB</td>
+<td>Same as INTEGER-&gt;TEXT</td>
+</tr>
+<tr>
+<td>FLOAT</td>
+<td>INTEGER</td>
+<td><a href="https://sqlite.org/lang_expr.html#castexpr" target="_blank" rel="noopener">CAST</a> to INTEGER</td>
+</tr>
+<tr>
+<td>FLOAT</td>
+<td>TEXT</td>
+<td>ASCII rendering of the float</td>
+</tr>
+<tr>
+<td>FLOAT</td>
+<td>BLOB</td>
+<td><a href="https://sqlite.org/lang_expr.html#castexpr" target="_blank" rel="noopener">CAST</a> to BLOB</td>
+</tr>
+<tr>
+<td>TEXT</td>
+<td>INTEGER</td>
+<td><a href="https://sqlite.org/lang_expr.html#castexpr" target="_blank" rel="noopener">CAST</a> to INTEGER</td>
+</tr>
+<tr>
+<td>TEXT</td>
+<td>FLOAT</td>
+<td><a href="https://sqlite.org/lang_expr.html#castexpr" target="_blank" rel="noopener">CAST</a> to REAL</td>
+</tr>
+<tr>
+<td>TEXT</td>
+<td>BLOB</td>
+<td>No change</td>
+</tr>
+<tr>
+<td>BLOB</td>
+<td>INTEGER</td>
+<td><a href="https://sqlite.org/lang_expr.html#castexpr" target="_blank" rel="noopener">CAST</a> to INTEGER</td>
+</tr>
+<tr>
+<td>BLOB</td>
+<td>FLOAT</td>
+<td><a href="https://sqlite.org/lang_expr.html#castexpr" target="_blank" rel="noopener">CAST</a> to REAL</td>
+</tr>
+<tr>
+<td>BLOB</td>
+<td>TEXT</td>
+<td>Add a zero terminator if needed</td>
+</tr>
+</tbody></table>
+</blockquote>
+<p>注意，当发生类型转换时，以前调用 <code>sqlite3_column_blob()</code> 、<code>sqlite3_column_text()</code> 和/或 <code>sqlite3_column_text16()</code> 返回的指针可能会失效。在以下情况下，可能会发生类型转换和指针无效：</p>
+<p>初始内容是BLOB，并调用 <code>sqlite3_column_text()</code> 或 <code>sqlite3_column_text16()</code>。可能需要将零结束符添加到字符串中。</p>
+<p>初始内容是UTF-8文本，并调用 <code>sqlite3_column_bytes16()</code> 或<code>sqlite3_column_text16()</code> 。内容必须转换为UTF-16。</p>
+<p>初始内容是UTF-16文本，并调用 <code>sqlite3_column_bytes()</code> 或 <code>sqlite3_column_text()</code> 。内容必须转换为UTF-8。</p>
+<p>UTF-16be和UTF-16le之间的转换总是在适当的位置进行的，并且不会使先前的指针失效，当然，先前指针引用的缓冲区的内容将被修改。其他类型的转换是在可能的情况下进行的，但有时它们是不可能的，在这些情况下，先前的指针是无效的。</p>
+<p>最安全的策略是以下列方式之一调用这些例程：</p>
+<p><code>sqlite3_column_text()</code> 后跟 <code>sqlite3_column_bytes()</code></p>
+<p><code>sqlite3_column_blob()</code> 后跟 <code>sqlite3_column_bytes()</code></p>
+<p><code>sqlite3_column_text16()</code> 后跟 <code>sqlite3_column_bytes16()</code></p>
+<p>换言之，您应该首先调用sqlite3_column_text（）、sqlite3_column_blob（）或sqlite3_column_text16（），将结果强制为所需格式，然后调用sqlite3_column_bytes（）或sqlite3_column_bytes16（）来查找结果的大小。不要将对sqlite3_column_text（）或sqlite3_column_blob（）的调用与对sqlite3_column_bytes16（）的调用混合，也不要将对sqlite3_column_text16（）的调用与对sqlite3_column_bytes（）的调用混合。</p>
+<p>返回的指针在如上所述进行类型转换之前，或在调用sqlite3_step（）或sqlite3_reset（）或sqlite3_finalize（）之前有效。用于保存字符串和blob的内存空间将自动释放。不要将从sqlite3_column_blob（）、sqlite3_column_text（）等返回的指针传递到sqlite3_free（）中。</p>
+<p>只要输入参数正确，只有在格式转换期间发生内存不足错误时，这些例程才会失败。只有以下接口子集会出现内存不足错误：</p>
+<p>sqlite3_column_blob()<br>sqlite3_column_text()<br>sqlite3_column_text16()<br>sqlite3_column_bytes()<br>sqlite3_column_bytes16()</p>
+<p>如果发生内存不足错误，则这些例程的返回值与列包含SQL空值时的返回值相同。通过在获取可疑返回值之后和在同一数据库连接上调用任何其他SQLite接口之前调用sqlite3_errcode（），可以将有效的SQL NULL返回与内存不足错误区分开来。</p>
+<h3 id="sqlite3-finalize"><a href="#sqlite3-finalize" class="headerlink" title="sqlite3_finalize"></a>sqlite3_finalize</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_finalize</span><span class="params">(sqlite3_stmt *pStmt)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>调用 <code>sqlite3_finalize()</code> 函数以删除prepared语句。如果最近对语句的求值没有遇到错误，或者从未对语句求值，则 <code>sqlite3_finalize()</code> 返回 <code>SQLITE_OK</code>。如果对语句S的最新求值失败，则 <code>sqlite3_finalize</code> 返回相应的错误代码或扩展错误代码。</p>
+<p><code>sqlite3_finalize（S）</code> 可以在prepared语句S的生命周期中的任何时间调用：在对语句S求值之前、在对sqlite3_reset（）的一个或多个调用之后，或在对sqlite3_step（）的任何调用之后，无论语句是否已完成执行。</p>
+<p>对空指针调用sqlite3_finalize（）是无害的no-op。</p>
+<p><strong>应用程序必须完成每一个prepared语句，以避免资源泄漏</strong>。在finalize一个prepared语句之后，对它的任何使用都可能导致未定义和不受欢迎的行为，如segfaults和堆损坏。</p>
+<h3 id="sqlite3-exec"><a href="#sqlite3-exec" class="headerlink" title="sqlite3_exec"></a>sqlite3_exec</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_exec</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  sqlite3*,                                  <span class="comment">/* An open database */</span></span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">const</span> <span class="keyword">char</span> *sql,                           <span class="comment">/* SQL to be evaluated */</span></span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">int</span> (*callback)(<span class="keyword">void</span>*,<span class="keyword">int</span>,<span class="keyword">char</span>**,<span class="keyword">char</span>**),  <span class="comment">/* Callback function */</span></span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">void</span> *,                                    <span class="comment">/* 1st argument to callback */</span></span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">char</span> **errmsg                              <span class="comment">/* Error msg written here */</span></span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>sqlite3_exec()</code> 接口是 <code>sqlite3_prepare_v2()</code> 、<code>sqlite3_step()</code> 和<code>sqlite3_finalize()</code> 的方便包装，它允许应用程序运行多个SQL语句，而无需使用大量C代码。</p>
+<p><code>sqlite3_exec()</code> 接口在作为第一个参数传入的数据库连接的上下文中，运行零个或多个传递到其第二个参数中的UTF-8编码、分号分隔的SQL语句。如果 <code>sqlite3_exec()</code> 的第三个参数的回调函数不为空，那么将为从计算的SQL语句中输出的每个结果行调用该函数。<code>sqlite3_exec()</code> 的第四个参数被转发到每个回调调用的第一个参数。如果指向 <code>sqlite3_exec()</code> 的回调指针为空，则永远不会调用任何回调并忽略结果行。</p>
+<p>如果在计算传递给 <code>sqlite3_exec()</code> 的SQL语句时出错，则停止执行当前语句，并跳过后续语句。如果 <code>sqlite3_exec()</code> 的第5个参数不为空，则任何错误消息都将写入从<code>sqlite3_malloc()</code> 获取的内存中，并通过第5个参数传回。为了避免内存泄漏，应用程序应该在不再需要错误消息字符串之后，对通过 <code>sqlite3_exec()</code> 的第5个参数返回的错误消息字符串调用 <code>sqlite3_free()</code>。如果 <code>sqlite3_exec()</code> 的第5个参数不为空并且没有出现错误，那么 <code>sqlite3_exec()</code> 在返回之前将其第5个参数中的指针设置为空。</p>
+<p>如果 <code>sqlite3_exec()</code> 回调返回非零，则 <code>sqlite3_exec()</code> 例程返回 <code>SQLITE_ABORT</code>，而不再次调用回调，也不运行任何后续的SQL语句。</p>
+<p><code>sqlite3_exec()</code> 回调函数的第二个参数是结果中的列数。<code>sqlite3_exec()</code> 回调函数的第三个参数是指向字段值的指针数组，这些字符串是从 <code>sqlite3_column_text()</code> 获得的，每列一个。如果结果行的元素为空，则 <code>sqlite3_exec()</code> 回调的对应字符串指针为空指针。<code>sqlite3_exec()</code> 回调的第四个参数是指向字段名称的指针数组，其中每个项表示从 <code>sqlite3_column_name()</code> 获得的相应结果列的名称。</p>
+<p>如果 <code>sqlite3_exec()</code> 的第二个参数是空指针、指向空字符串的指针或只包含空白和/或SQL注释的指针，则不计算SQL语句，也不更改数据库。</p>
+<p>限制：</p>
+<p>应用程序必须确保 <code>sqlite3_exec()</code> 的第一个参数是有效且开放的数据库连接。</p>
+<p>在运行 <code>sqlite3_exec()</code> 时，应用程序不能关闭由第一个参数指定的到<code>sqlite3_exec()</code> 的数据库连接。</p>
+<p>在运行 <code>sqlite3_exec()</code> 时，应用程序不能修改传递到 <code>sqlite3_exec()</code> 的第二个参数中的SQL语句文本。</p>
+<h3 id="sqlite3-busy-handler"><a href="#sqlite3-busy-handler" class="headerlink" title="sqlite3_busy_handler"></a>sqlite3_busy_handler</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sqlite3_busy_handler</span><span class="params">(sqlite3*,<span class="keyword">int</span>(*)(<span class="keyword">void</span>*,<span class="keyword">int</span>),<span class="keyword">void</span>*)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>sqlite3_busy_handler（D，X，P）</code> 例程设置一个回调函数X，当另一个线程或进程锁定了一个表时，当试图访问与数据库连接D相关联的数据库表时，可以使用参数P调用该函数。sqlite3_busy_handler（）接口用于实现sqlite3_busy_timeout（）和PRAGMA busy_timeout。</p>
+<p>如果busy回调为空，则遇到锁时立即返回SQLITE_BUSY。如果busy回调不为空，则可以使用两个参数调用回调。</p>
+<p>busy处理程序的第一个参数是void*指针的副本，它是sqlite3_busy_handler（）的第三个参数。busy handler回调的第二个参数是以前为同一锁定事件调用busy handler的次数。如果busy回调返回0，则不会再尝试访问数据库，并将SQLITE_BUSY返回给应用程序。如果回调返回非零，则再次尝试访问数据库并重复周期。</p>
+<p>繁忙处理程序的存在并不保证在发生锁争用时会调用它。如果SQLite确定调用busy处理程序可能导致死锁，它将继续并将SQLITE_BUSY返回给应用程序，而不是调用busy处理程序。考虑一个场景，其中一个进程持有一个读取锁，它正试图升级为保留锁，而另一个进程持有一个保留锁，它正试图升级为独占锁。第一个进程无法继续，因为它被第二个进程阻止；第二个进程无法继续，因为它被第一个进程阻止。如果两个进程都调用繁忙的处理程序，两个进程都不会取得任何进展。因此，SQLite返回第一个进程的SQLITE_BUSY，希望这将导致第一个进程释放其读锁并允许第二个进程继续。</p>
+<p>默认回调为空。</p>
+<p>只能为每个数据库连接定义一个忙处理程序。设置新的忙处理程序将清除以前设置的任何处理程序。请注意，调用sqlite3_busy_timeout（）或计算PRAGMA busy_timeout=N将更改busy处理程序，从而清除以前设置的任何busy处理程序。</p>
+<p>busy回调不应执行任何修改调用busy处理程序的数据库连接的操作。换句话说，忙碌的处理程序是不可重入的。任何此类操作都会导致未定义的行为。</p>
+<p>不能通过关闭数据库连接数或prepared语句关闭busy handler。</p>
+<h3 id="sqlite3-wal-checkpoint-v2"><a href="#sqlite3-wal-checkpoint-v2" class="headerlink" title="sqlite3_wal_checkpoint_v2"></a>sqlite3_wal_checkpoint_v2</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int sqlite3_wal_checkpoint_v2(</span><br><span class="line">  sqlite3 *db,                    /* Database handle */</span><br><span class="line">  const char *zDb,                /* Name of attached database (or NULL) */</span><br><span class="line">  int eMode,                      <span class="comment">/* SQLITE_CHECKPOINT_* value */</span></span><br><span class="line">  int *pnLog,                     /* OUT: Size of WAL log in frames */</span><br><span class="line">  int *pnCkpt                     /* OUT: Total number of frames checkpointed */</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p><code>sqlite3_wal_checkpoint_v2（D，X，M，L，C）</code> 接口在模式M下对数据库连接D的数据库X运行检查点操作。状态信息被写回由L和C指向的整数中。M参数必须是有效的检查点模式：</p>
+<ul>
+<li><p>SQLITE_CHECKPOINT_PASSIVE</p>
+<p>在不等待任何数据库读写器完成的情况下检查尽可能多的帧，如果日志中的所有帧都被选中，则同步数据库文件。在SQLITE_CHECKPOINT_被动模式下从不调用繁忙处理程序回调。另一方面，如果存在并发读写器，被动模式可能会使检查点未完成。</p>
+</li>
+<li><p>SQLITE_CHECKPOINT_FULL</p>
+<p>此模式将阻塞（它调用busy handler回调），直到没有数据库写入程序并且所有读卡器都在读取最新的数据库快照。然后检查日志文件中的所有帧并同步数据库文件。此模式在挂起时阻止新的数据库写入程序，但允许新的数据库读取程序继续不受阻碍。</p>
+</li>
+<li><p>SQLITE_CHECKPOINT_RESTART</p>
+<p>此模式的工作方式与SQLITE_CHECKPOINT_FULL相同，另外，在检查日志文件之后，它会阻塞（调用busy handler回调），直到所有读卡器都只从数据库文件读取为止。这将确保下一个写入程序从头开始重新启动日志文件。与SQLITE_CHECKPOINT_FULL类似，此模式在挂起时阻止新的数据库编写器尝试，但不会妨碍读卡器。</p>
+</li>
+<li><p>SQLITE_CHECKPOINT_TRUNCATE</p>
+<p>此模式的工作方式与SQLITE_CHECKPOINT_RESTART相同，它还将在成功返回之前将日志文件截断为零字节。</p>
+</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://sqlite.org/c3ref/intro.html" target="_blank" rel="noopener">sqlite c/c++ api 官方文档</a></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">GN</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://lmzcool.top/2020/04/06/SQLite%E5%B8%B8%E7%94%A8API(C)/">http://lmzcool.top/2020/04/06/SQLite%E5%B8%B8%E7%94%A8API(C)/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://lmzcool.top" target="_blank">GN</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://user-gold-cdn.xitu.io/2020/5/11/1720422da38055a1?w=500&amp;h=500&amp;f=png&amp;s=23846" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/04/06/sql/"><img class="prev_cover lazyload" data-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-7.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SQL必知必会</div></div></a></div><div class="next-post pull_right"><a href="/2020/04/06/FMDB%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"><img class="next_cover lazyload" data-src="https://raw.githubusercontent.com/gaonian/HexoDocument/master/iOS/SQLite/fmdb_image/FMDB.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">FMDB源码解析</div></div></a></div></nav><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+  clientID: 'f41b211b8f76bcb4c631',
+  clientSecret: '18d237316009bcbd6c13816a73a595f20e63e0f9',
+  repo: 'https://github.com/gaonian/gaonian.github.io',
+  owner: 'gaonian',
+  admin: ['gaonian'],
+  id: md5(decodeURI(location.pathname)),
+  language: 'zh-CN',
+  perPage: 10,
+  distractionFreeMode: false,
+  pagerDirection: 'last',
+  createIssueManually: false,
+  updateCountCallback: commentCount
+})
+gitalk.render('gitalk-container')
+
+function commentCount(n){
+  try {
+    document.getElementsByClassName('gitalk-comment-count')[0].innerHTML= n
+  } catch (e) {
+    return false
+  }
+}</script></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2015 - 2020 By GN</div><div class="icp"><a><span>京ICP备19014027号</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script></body></html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>One Quick Way to Drastically Reduce your iOS App's Download Size | GN</title><meta name="description" content="One Quick Way to Drastically Reduce your iOS App's Download Size"><meta name="author" content="GN"><meta name="copyright" content="GN"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="One Quick Way to Drastically Reduce your iOS App's Download Size"><meta name="twitter:description" content="One Quick Way to Drastically Reduce your iOS App's Download Size"><meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-7.png"><meta property="og:type" content="article"><meta property="og:title" content="One Quick Way to Drastically Reduce your iOS App's Download Size"><meta property="og:url" content="http://lmzcool.top/2020/04/06/reduceApp/"><meta property="og:site_name" content="GN"><meta property="og:description" content="One Quick Way to Drastically Reduce your iOS App's Download Size"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-7.png"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="http://lmzcool.top/2020/04/06/reduceApp/"><link rel="prev" title="SQLite接口介绍" href="http://lmzcool.top/2020/04/06/SQLite%E6%8E%A5%E5%8F%A3%E4%BB%8B%E7%BB%8D(C)/"><link rel="next" title="objc_msgsend" href="http://lmzcool.top/2020/04/06/objc_msgsend/"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css"><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5/js/md5.min.js"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: false,
+  highlightLang: false,
+  highlightShrink: 'none',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">15</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">4</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#One-Quick-Way-to-Drastically-Reduce-your-iOS-App’s-Download-Size"><span class="toc-number">1.</span> <span class="toc-text">One Quick Way to Drastically Reduce your iOS App’s Download Size</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-determines-an-app’s-download-size-什么决定了app的下载大小"><span class="toc-number">1.1.</span> <span class="toc-text">What determines an app’s download size?   什么决定了app的下载大小</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-are-my-binaries-so-big-Is-there-really-that-much-code-Guess-it’s-because-I’m-a-10x-programmer"><span class="toc-number">1.2.</span> <span class="toc-text">Why are my binaries so big? Is there really that much code? Guess it’s because I’m a 10x programmer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#But-encryption-is-good-because-it-will-make-my-app-more-tamper-proof-right-但加密是好的，因为它将使我的应用程序更防篡改，是这样吗"><span class="toc-number">1.3.</span> <span class="toc-text">But encryption is good because it will make my app more tamper-proof, right?但加密是好的，因为它将使我的应用程序更防篡改，是这样吗?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#How-much-does-the-encryption-add"><span class="toc-number">1.4.</span> <span class="toc-text">How much does the encryption add?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Overview-of-an-iOS-binary"><span class="toc-number">1.5.</span> <span class="toc-text">Overview of an iOS binary</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Voila"><span class="toc-number">1.6.</span> <span class="toc-text">Voila!</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Disclaimer-免责声明"><span class="toc-number">1.7.</span> <span class="toc-text">Disclaimer 免责声明</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-7.png)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">GN</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">One Quick Way to Drastically Reduce your iOS App's Download Size</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-04-06 19:47:36"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-04-06</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-04-06 19:47:36"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-04-06</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/iOS/">iOS</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/2020/04/06/reduceApp/#post-comment"><span class="gitalk-comment-count comment-count"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div id="article-container"><h1 id="One-Quick-Way-to-Drastically-Reduce-your-iOS-App’s-Download-Size"><a href="#One-Quick-Way-to-Drastically-Reduce-your-iOS-App’s-Download-Size" class="headerlink" title="One Quick Way to Drastically Reduce your iOS App’s Download Size"></a>One Quick Way to Drastically Reduce your iOS App’s Download Size</h1><p><strong>Before you read this article: Apple says that is will reduce the download size of all apps by 50% by “packaging” them differently. They are probably fixing the problems that this article provides workarounds for, making this article irrelevant. However, I will leave the article up for general interest.</strong></p>
+<p>在你读这篇文章之前， 苹果公司说它将通过对所有应用程序进行不同的“打包”，将它们的下载量减少50%。他们可能正在修复本文提供的解决办法，使这篇文章无关紧要。不过，我将把这篇文章留作一般参考</p>
+<p>App download size is important. The larger your app’s download size, the fewer users will download it. Plus, if it goes past 150MB, then the App Store won’t allow users to download it over WWAN.</p>
+<p>应用程序下载大小很重要。应用程序的下载大小越大，下载它的用户就越少。另外，如果超过150MB，应用商店将不允许用户通过WWAN下载。</p>
+<h2 id="What-determines-an-app’s-download-size-什么决定了app的下载大小"><a href="#What-determines-an-app’s-download-size-什么决定了app的下载大小" class="headerlink" title="What determines an app’s download size?   什么决定了app的下载大小"></a>What determines an app’s download size?   什么决定了app的下载大小</h2><p>Let’s look at the Telegram app(thinned for the iPhoneX) and see how much each file type contributes:</p>
+<p><img src="/" class="lazyload" data-src="https://raw.githubusercontent.com/gaonian/HexoDocument/master/iOS/reduce_img/reduce.png"  alt=""></p>
+<p>As you can see, it’s dominated by binaries (the main binary, frameworks, and extension binaries). Binaries usually make up 60%+ of an app’s download size.</p>
+<p>如您所见，它主要由二进制文件（主要二进制文件、框架和扩展二进制文件）控制。二进制文件通常占应用程序下载大小的60%以上。</p>
+<h2 id="Why-are-my-binaries-so-big-Is-there-really-that-much-code-Guess-it’s-because-I’m-a-10x-programmer"><a href="#Why-are-my-binaries-so-big-Is-there-really-that-much-code-Guess-it’s-because-I’m-a-10x-programmer" class="headerlink" title="Why are my binaries so big? Is there really that much code? Guess it’s because I’m a 10x programmer"></a>Why are my binaries so big? Is there really that much code? Guess it’s because I’m a 10x programmer</h2><p>Code can certainly add up, but part of the issue is that Apple encrypts a large portion of the binary before it’s added to the compressed payload that the user downloads.</p>
+<p>代码当然会增加，但部分问题在于，在将二进制文件添加到用户下载的压缩有效负载之前，苹果会对其中的很大一部分进行加密。</p>
+<p>Encrypted data looks like random data to the compression program, so it can’t compress it at all.</p>
+<p>加密数据在压缩程序看来就像随机数据，所以根本无法压缩。</p>
+<h2 id="But-encryption-is-good-because-it-will-make-my-app-more-tamper-proof-right-但加密是好的，因为它将使我的应用程序更防篡改，是这样吗"><a href="#But-encryption-is-good-because-it-will-make-my-app-more-tamper-proof-right-但加密是好的，因为它将使我的应用程序更防篡改，是这样吗" class="headerlink" title="But encryption is good because it will make my app more tamper-proof, right?但加密是好的，因为它将使我的应用程序更防篡改，是这样吗?"></a>But encryption is good because it will make my app more tamper-proof, right?但加密是好的，因为它将使我的应用程序更防篡改，是这样吗?</h2><p>Actually, the encryption is almost useless! You can easily decrypt any app on a jailbroken phone with the help of Clutch. Plus, how important is tamper-proofing for you app in particular?</p>
+<p>实际上，加密几乎是无用的!  在Cluthch的帮助下，你可以轻松在越狱手机上脱壳任何应用程序。另外，应用程序的防篡改功能有多重要?</p>
+<h2 id="How-much-does-the-encryption-add"><a href="#How-much-does-the-encryption-add" class="headerlink" title="How much does the encryption add?"></a>How much does the encryption add?</h2><p>For a typical app, the encrypted portion takes around 70% of the binary (and the binary is in turn, let’s say, is 80% of the app). If unencrypted and then compressed. its size would drop by about 60%. So we have 70% of 80% of 60%, i.e. <strong>a ballpark reduction of 34% of your app’s overall size</strong>. You can use this script to approximate the savings. You can find more details about what exactly is encrypted in the “Overview of an iOS binary” section below.</p>
+<p>对于一个典型的应用程序，加密部分约占二进制代码的70%(而二进制代码又占应用程序的80%)。如果不加密，然后压缩。它的规模将下降60%左右。所以我们有60%的70%和80%，也就是说，你的应用程序的整体大小减少了34%。您可以使用这个脚本来估算节省的成本。你可以在下面的“iOS二进制概述”一节中找到更多关于加密的细节。</p>
+<p><strong>Conclusion: your users are downloading a massively inflated app payload, for no gain</strong></p>
+<p>结论:你的用户正在下载一个巨大的膨胀的应用程序payload，没有任何好处</p>
+<p><strong>Solution: move everything out of the encrypted part of the binary</strong></p>
+<p>解决方案:将所有内容移出二进制文件的加密部分</p>
+<h2 id="Overview-of-an-iOS-binary"><a href="#Overview-of-an-iOS-binary" class="headerlink" title="Overview of an iOS binary"></a>Overview of an iOS binary</h2><p>Each binary is organized into a number of chunks called segments. Each segment consists of sections. There’s a section for the code, a section for constant strings, etc.</p>
+<p>Apple encrypts the __TEXT segment, and nothing else. If we move all the sections out of that segment, then the segment will take up almost no space, and encrypting it won’t have much impact on our app. The sections can be moved to a new segment, where they won’t be encrypted and can be properly compressed. The decompressed size of our app will not change, but the compressed size will.</p>
+<p>Why not just get rid of __TEXT entirely? There may be a way to do it, but when I tried, I encountered a number of problems. so we’ll just move the sections.</p>
+<p>每个二进制文件都被组织成一些称为segment的块。每一segment由若干sections组成。有代码section，常量字符串的section，等等。</p>
+<p>苹果只加密了__TEXT segment。如果我们将所有的sections移出那个segment，那么这个segment将几乎不占用任何空间，对它进行加密也不会对我们的应用程序产生太大影响。sections可以移动到一个新的segment，在那里它们不会被加密，可以被适当压缩。我们的应用程序的解压大小不会改变，但压缩大小会。</p>
+<p>为什么不干脆完全摆脱掉__TEXT呢? 可能有一种方法可以做到这一点，但当我尝试的时候，我遇到了许多问题。所以我们只需要移动sections。</p>
+<p><strong>1. Disable bitcode, if it’s on. 关闭bitcode</strong></p>
+<p>Our linker flags won’t work with bitcode, so we’ll have to turn bitcode off. Are there any drawbacks to turning off bitcode? In my opinion, not really, but for more information, read through this article. Plus, if you decide you want bitcode for some later release, you can always just undo this trick.</p>
+<p>我们的链接器标志不能用bitcode，所以我们必须关闭bitcode。关闭bitcode有什么缺点吗? 在我看来，并不是这样的，但要了解更多信息，请通读这篇文章。另外，如果您决定在以后的版本中使用bitcode，您可以随时取消这个技巧。</p>
+<p><strong>2. Examine the current state of your app 检查应用程序的当前状态</strong></p>
+<p>Get the path to your executable from the build log</p>
+<p>从构建日志获取可执行文件的路径</p>
+<p><img src="/" class="lazyload" data-src="https://raw.githubusercontent.com/gaonian/HexoDocument/master/iOS/reduce_img/segment.png"  alt=""></p>
+<p>We can see that the __TEXT segment has a number of sections (in the lines below Segment _TEXT: … and above Segment _DATA: …)</p>
+<p><strong>3. Figure out the linker flags. 找出链接器标志</strong></p>
+<p>We’ll call our new segment _MY_TEXT. For each section in the _TEXT segment, we’ll add a flag,  <code>-rename_section _TEXT &lt;section name&gt; _MY_TEXT &lt;section name&gt;</code>,  to the linker invocation. Also, we need to add <code>-segprot __MY_TEXT rx rx</code> to give our new segment rx permissions (read and execute, but not write). Lastly, to pass a flag to the linker during and Xcode build, it needs to get changed from <arg1> <arg2> … to -Wl, <arg1>,<arg2>,…</p>
+<p>You can get a quick set of flags that will probably do the job with this gist. Or,you can be more thorogh and run this script for your binary, which will give you flags for all the sections.</p>
+<p>To add these flags. go to the Xcode build settings for your target and add them under “Other Linker Flags”:</p>
+<p>我们将把新的segment命名为_MY_TEXT。对于__TEXT segment中的每个section，我们将添加一个标志，<code>-rename_section _TEXT &lt;section name&gt; _MY_TEXT &lt;section name&gt;</code>，以用于链接器调用。另外，我们需要添加<code>-segprot _MY_TEXT rx rx</code> 来赋予我们的新段rx权限(读和执行，但不写)。最后，要在Xcode构建期间向链接器传递一个标志，需要将它从<arg1> <arg2>…更改为-Wl， <arg1>，<arg2>，…</p>
+<p>您可以快速获得一组标记，这些标记可能可以完成本文的主旨。或者，您可以更灵活一些，运行这个二进制脚本，它将为所有部分提供标记。</p>
+<p>添加这些标志。进入Xcode建立设置为您的目标，并添加他们在 “Other Linker Flags”:</p>
+<p><img src="/" class="lazyload" data-src="https://raw.githubusercontent.com/gaonian/HexoDocument/master/iOS/reduce_img/otherlink.png"  alt=""></p>
+<p><img src="/" class="lazyload" data-src="https://raw.githubusercontent.com/gaonian/HexoDocument/master/iOS/reduce_img/otherlink1.png"  alt=""></p>
+<p><strong>4. Verify</strong></p>
+<p>Now run another build and run the xcrun size… command again to see if it worked.<br>You should see something like:</p>
+<p>现在运行另一个版本并再次运行xcrun size…命令，看看它是否工作。<br>你应该看到这样的东西:</p>
+<p><img src="/" class="lazyload" data-src="https://raw.githubusercontent.com/gaonian/HexoDocument/master/iOS/reduce_img/segment_new@2x.png"  alt=""></p>
+<p>Caveat: in my experience, the __const section is not always moved. Oh well, it’s not a big section anyways.</p>
+<p>警告: 根据我的经验，__const部分不能被移动。不过，反正也不是很大的一部分。</p>
+<p><strong>5. Rinse and repeat for other binaries in your app, if necessary 如果有必要，清洗并重复应用程序中的其他二进制文件</strong></p>
+<p>Although doing this for the main binary will usually be the biggest win by far, you can also do this for other binaries in your app, if you have any. The two categories that come to mind are app extensions (like a share extension) and dynamic libraries AKA dylibs (such as the Swift dylibs). For the extensions, you can simply repeat the above process if you’re doing the linking for them yourself (meaning you can’t do this for Swift dylibs). I haven’t tested the process for these other binaries, but I imagine it would be equally smooth.</p>
+<p>到目前为止，通过做上述这些事情，主二进制文件取得了阶段性的胜利。如果有其他二进制文件，也可以为app内的其他二进制文件做这些操作。 首先想到的两类是app extensions（例如分享extension）和动态库（例如swift dylibs）。</p>
+<p>对于extensions，可以简单重复上面的操作步骤。</p>
+<p>对于动态库，如果是自己链接的动态库，可以重复上面步骤（不能为swift动态库做这些操作）。</p>
+<p>虽然并没有针对其他动态库做这些步骤，但我相信它是同样顺利的</p>
+<h2 id="Voila"><a href="#Voila" class="headerlink" title="Voila!"></a>Voila!</h2><p>Now you have an app that will be compressed properly, at minimal cost to your its security. </p>
+<p>If you’d like to double-check what the users are downloading, you can download the app to a jailbroken phone or to your desktop(via iTunes)</p>
+<p>现在你有一个应用程序将被正确压缩，以最低的安全成本。</p>
+<p>如果您想再次检查用户正在下载的内容，可以将应用程序下载到越狱手机或桌面（通过iTunes）</p>
+<h2 id="Disclaimer-免责声明"><a href="#Disclaimer-免责声明" class="headerlink" title="Disclaimer 免责声明"></a>Disclaimer 免责声明</h2><p>I have verified with an app of mine that it can be distributed on the App Store with a properly compressed binary and still work. I’ve also played around with symbolication and Objective-C introspection, and they seem to work, too.<br>However,I can’t guarantee that this is risk-free. It’s possible that some crazy runtime thing in some library is affected by this. Also,Apple might someday start rejecting apps that use this technique. Use at your own risk</p>
+<p>Nonetheless, I’d recommend trying it for any app with a good beta testing process. If you do decide to try it, let me know how it goes in the comments section!</p>
+<p>我已经用我的一个应用程序验证过，它可以在app Store上以正确压缩的二进制文件发布，而且仍然可以工作。我还尝试了符号化和Objective-C内省，它们似乎也很有用。<br>然而，我不能保证这是无风险的。某些库中某些疯狂的运行时可能会受此影响。此外，苹果可能有一天会开始拒绝使用这种技术的应用程序。使用风险自负</p>
+<p>尽管如此，我还是建议你在任何有良好的beta测试过程的应用程序中都试试它。如果你决定尝试一下，请在评论区告诉我效果如何!</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">GN</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://lmzcool.top/2020/04/06/reduceApp/">http://lmzcool.top/2020/04/06/reduceApp/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://lmzcool.top" target="_blank">GN</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://user-gold-cdn.xitu.io/2020/5/11/1720422da38055a1?w=500&amp;h=500&amp;f=png&amp;s=23846" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/04/06/SQLite%E6%8E%A5%E5%8F%A3%E4%BB%8B%E7%BB%8D(C)/"><img class="prev_cover lazyload" data-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-2.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SQLite接口介绍</div></div></a></div><div class="next-post pull_right"><a href="/2020/04/06/objc_msgsend/"><img class="next_cover lazyload" data-src="https://cdn.jsdelivr.net/gh/jerryc127/CDN/img/material-9.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">objc_msgsend</div></div></a></div></nav><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div id="gitalk-container"></div><script>var gitalk = new Gitalk({
+  clientID: 'f41b211b8f76bcb4c631',
+  clientSecret: '18d237316009bcbd6c13816a73a595f20e63e0f9',
+  repo: 'https://github.com/gaonian/gaonian.github.io',
+  owner: 'gaonian',
+  admin: ['gaonian'],
+  id: md5(decodeURI(location.pathname)),
+  language: 'zh-CN',
+  perPage: 10,
+  distractionFreeMode: false,
+  pagerDirection: 'last',
+  createIssueManually: false,
+  updateCountCallback: commentCount
+})
+gitalk.render('gitalk-container')
+
+function commentCount(n){
+  try {
+    document.getElementsByClassName('gitalk-comment-count')[0].innerHTML= n
+  } catch (e) {
+    return false
+  }
+}</script></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2015 - 2020 By GN</div><div class="icp"><a><span>京ICP备19014027号</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script></body></html>
